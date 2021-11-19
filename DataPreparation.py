@@ -46,9 +46,9 @@ def getPositionsFromCSV(file_path):
             distance = float(info[4])
             last_stop = info[5]
 
-            if line == ("7"): # TEST
+            if line == ("2"): # TEST
                 i += 1 # TEST
-                if i > 500: break # TEST
+                if i > 1000: break # TEST
                 if variance != "0":
                     if (line, variance) not in positions.keys():
                         positions[(line, variance)] = [(time, last_stop, distance, terminus)]
@@ -106,7 +106,7 @@ def getPositions(file_path):
 
     return positions
 
-def getVariance(line, direction, last):
+def getVariance(line, direction, last): # TODO intermediate terminus stops
     global Lines
 
     if isSameStop(Lines[(line, "1")][-1][0], direction):
@@ -115,28 +115,6 @@ def getVariance(line, direction, last):
     if isSameStop(Lines[(line, "2")][-1][0], direction):
         return "2"
 
-    return "0"
-
-    """
-    if lines[(line, "1")][-1][0] == direction:
-        return "1"
-
-    if lines[(line, "2")][-1][0] == direction:
-        return "2"
-
-    if direction in parentStation.keys(): # Parent Station
-        if lines[(line, "1")][-1][0] in parentStation.keys() and parentStation[lines[(line, "1")][-1][0]] == parentStation[direction]:
-            return "1"
-
-        if lines[(line, "2")][-1][0] in parentStation.keys() and parentStation[lines[(line, "2")][-1][0]] == parentStation[direction]:
-            return "2"
-
-    if lines[(line, "1")][-1][0][:-1] == direction:
-        return "1"
-
-    if lines[(line, "2")][-1][0][:-1] == direction:
-        return "2"
-    """
     return "0" # "1" or "2" / 0 == error
 
 
@@ -190,56 +168,77 @@ def getLineInfo(file_path):
     return lines
 
 
+def removeTechnicalStops(position, line):
+    global Lines
+    p = 0
+    while p < len(position):
+        pos = position[p]
+        found = False
+        i = 0
+        while not found and i < len(Lines[line]):
+            stop = Lines[line][i]
+            if isSameStop(stop[0], pos[1]):
+                found = True
+            i += 1
+
+        # TEST
+
+        i = 0
+        while not found and i < len(StopsName.keys()):
+            stop = list(StopsName.keys())[i]
+            if isSameStop(stop, pos[1]):
+                found = True
+                print("Stop " + pos[1] + " not in line " + line[0] + " but is an existing stop")
+            i += 1
+
+        if not found:
+            print("Stop " + pos[1] + " is a technical stop")
+            position.pop(p)
+        else:
+            p += 1
+    return position
+
+
+def groupSortByTime(position):
+    position.sort(key=lambda x: x[0])
+    times = []
+    last_time = "-1"
+    for p in position:
+        if last_time != p[0]:
+            last_time = p[0]
+            times.append([])
+        times[-1].append(p)
+
+    return times
+
+
     # positions[(l, variance)] = [(time, last, distance), ...]
 def analyseSpeed(positions):
     global StopsName
 
     for k in positions.keys():
-        k = ("7","1") # Test
+        #k = ("7","2") # TEST
         position = positions[k]
 
         # Remove technical stops
-        p = 0
-        while p < len(position):
-            pos = position[p]
-            found = False
-            i = 0
-            while not found and i < len(Lines[k]):
-                stop = Lines[k][i]
-                if isSameStop(stop[0], pos[1]):
-                    found = True
-                i += 1
-
-            # TEST
-
-            i = 0
-            while not found and i < len(StopsName.keys()):
-                stop = list(StopsName.keys())[i]
-                if isSameStop(stop, pos[1]):
-                    found = True
-                    print("Stop " + pos[1] + " not in line " + k[0] + " but is an existing stop")
-                i += 1
-
-            if not found:
-                print("Stop " + pos[1] + " is a technical stop")
-                position.pop(p)
-            else:
-                p += 1
+        position = removeTechnicalStops(position, k)
 
         # Group + sorted by time
-        position.sort(key=lambda x: x[0])
-        times = []
-        last_time = "-1"
-        for p in position:
-            if last_time != p[0]:
-                last_time = p[0]
-                times.append([])
-            times[-1].append(p)
+        times = groupSortByTime(position)
 
 
         vehicles = [[p] for p in times[0]]
-        #
+
         for t in times[1:]:
+            # TEST
+
+            input("Press to continue")
+            print("-" * 150)
+            printVehicles(vehicles)
+            print()
+            print("Positions : " + ", ". join([getStringPos(p) for p in t]))
+            # TEST
+
             for i in range(len(vehicles)-1, -1, -1):
                 # search the closest forward vehicle
                 index = getIndexClosestVehicle(vehicles[i][-1], t, k)
@@ -250,16 +249,22 @@ def analyseSpeed(positions):
                 # It means new vehicle(s)
                 for p in t:
                     vehicles.append([p])
+        print("-" * 150) # TEST
+        printVehicles(vehicles)
 
-        #print(vehicles)
-        for v in vehicles:
-            t = []
-            for pos in v:
-                a = getStationName(pos[1])
-                a += " : " + str(pos[2]) + " m at " + datetime.utcfromtimestamp(pos[0]/1000).strftime("%H:%M:%S") # datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-                t.append(a)
-            print("Vehicle : " + " --> ".join(t) + "\n")
-        break
+
+        break # TEST
+
+def printVehicles(vehicles):
+    for v in range(len(vehicles)):
+        t = []
+        for pos in vehicles[v][-2:]: # TEST
+            a = getStringPos(pos)
+            t.append(a)
+        print("Vehicle " + str(v) + " : " + " --> ".join(t) + "\n")
+
+def getStringPos(pos):
+    return getStationName(pos[1]) + " : " + str(pos[2]) + " m at " + datetime.utcfromtimestamp(pos[0]/1000).strftime("%H:%M:%S") #+ " (terminus : " + getStationName(pos[3]) + ")" # datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
 
 def getIndexStop(stop, stops):
     i = 0
@@ -268,47 +273,37 @@ def getIndexStop(stop, stops):
             return i
     raise
 
-def getIndexClosestVehicle(vehicle_last_position, position, line): # positions*
+
+def getIndexClosestVehicle(vehicle_last_position, positions, line): # positions* # position = (time, last_stop, distance, terminus)
     global Lines
     index = -1
     stop_dist = -1
     stops = Lines[line]
-
-    for i in range(len(position)):
+    for i in range(len(positions)):
         try:
-            # current_stop_dist = stops.index(vehicle_last_position[1]) - stops.index(position[i][1])
-            current_stop_dist = getIndexStop(vehicle_last_position[1], stops) - getIndexStop(position[i][1], stops)
+            position = positions[i]
+            if isSameStop(vehicle_last_position[3], position[3]): # Same terminus
+                current_stop_dist = getIndexStop(position[1], stops) - getIndexStop(vehicle_last_position[1], stops)
 
-            if current_stop_dist == 0:
-                if vehicle_last_position[2] <= position[i][2]:
-                    if (index == -1) or (position[i][2] <= position[index][2]):
+                if (current_stop_dist == 0 and vehicle_last_position[2] <= position[2]) or (current_stop_dist > 0):
+                    if index == -1: # first valid
                         index = i
                         stop_dist = current_stop_dist
 
-            elif current_stop_dist >= 0:
-                if index == -1:
-                    index = i
-                    stop_dist = current_stop_dist
-
-                elif current_stop_dist < stop_dist:
-                    index = i
-                    stop_dist = current_stop_dist
-
-                elif current_stop_dist == stop_dist:
-                    if position[i][2] <= position[index][2]:
+                    elif current_stop_dist < stop_dist: # current closer than last
                         index = i
                         stop_dist = current_stop_dist
+
+                    elif current_stop_dist == stop_dist: # current + last same segment
+                        if position[2] <= positions[index][2]:
+                            index = i
+                            stop_dist = current_stop_dist
 
         except Exception as e:
             # print(e, "|",stops)
             pass
-        """
-        if vehicle[2] <= vehicles[i][2]:
-            if vehicle[1] == vehicles[i][1]:
-                if index == -1 or (vehicles[i] < vehicle[index]):
-                    index = i
-        """
     return index
+
 
 def isSameStop(stop_1, stop_2):
     global ParentStation
