@@ -1,4 +1,5 @@
 import json
+import os
 
 from Script.ExtractData import getParentStation, getLineInfo, getStopsName
 from Script.Transport import Transport
@@ -35,9 +36,13 @@ def jsonToCSV(input_file_path, output_file_path, transport):
 
 
 def createCSVs(directory_in, directory_out, transport):
+    if not os.path.exists(directory_out):
+        os.makedirs(directory_out)
+    print("0 / 13 (0%) done")
     for i in range(1, 14):
         jsonToCSV(directory_in + "/vehiclePosition{:02d}.json".format(i),
                   directory_out + "/vehiclePosition{:02d}.csv".format(i), transport)
+        print(str(i) + " / 13 (" + str(round(i / 13 * 100)) + "%) done")
 
 
 def main():

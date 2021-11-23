@@ -125,14 +125,14 @@ def main():
 
     transport = Transport(parentStation, lines, stopsName)
 
-    # createCSVs("Data") # Path to data
-    positions = getPositionsFromCSV("../Data/vehiclePosition02.csv")
+    # createCSVs("../Data") # Path to data
+    # positions = getPositionsFromCSV("../Data/vehiclePosition02.csv")
 
     # yoyo(positions, transport)
     # createVehiclesID(getAllVehicles(positions, transport), "../Data/vehicleIDPosition01.csv")
     # analyseSpeed(positions, transport)
 
-    analyseStopsID(list(stopsName.keys()), positions)
+    # analyseStopsID(list(stopsName.keys()), positions)
 
 
 if __name__ == '__main__':

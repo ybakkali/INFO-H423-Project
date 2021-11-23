@@ -10,7 +10,7 @@ class Transport:
         self.stopsName = stopsName
 
     def getRealStop(self, stopID, line):
-        stopsID = [s[0] for s in self.lines[(line, "1")] + self.lines[(line, "2")] if len(s) > 2]
+        stopsID = [s[0] for s in self.lines[(line, "1")] + self.lines[(line, "2")]]
 
         if stopID in stopsID:
             return stopID
@@ -86,15 +86,13 @@ class Transport:
                 return i
         raise
 
-    def getVariance(self, line, direction):  # TODO intermediate terminus stops
-
-        if self.isSameStop(self.lines[(line, "1")][-1][0], direction):
+    def getVariance(self, line, direction):
+        if direction in [s[0] for s in self.lines[(line, "1")]]:
             return "1"
-
-        if self.isSameStop(self.lines[(line, "2")][-1][0], direction):
+        elif direction in [s[0] for s in self.lines[(line, "2")]]:
             return "2"
-
-        return "0"  # "1" or "2" / 0 == error
+        else:
+            raise
 
     def removeTechnicalStops(self, position, line):
         p = 0
