@@ -1,0 +1,52 @@
+import json
+
+from Script.ExtractData import getParentStation, getLineInfo, getStopsName
+from Script.Transport import Transport
+
+
+def jsonToCSV(input_file_path, output_file_path, transport):
+    input_file = open(input_file_path, "r")
+    data = json.load(input_file)
+
+    output_file = open(output_file_path, "w")
+
+    output_file.write("Time, LineID, DirectionID, Variance, DistanceFromPoint, PointID \n")
+
+    for time in data["data"]:
+        if time is not None:
+            for response in time["Responses"]:
+                if response is not None:
+                    for line in response["lines"]:
+                        if line is not None:
+                            for position in line["vehiclePositions"]:
+                                if position is not None:
+                                    terminus = transport.getRealStop(position["directionId"], line["lineId"])
+                                    pointID = transport.getRealStop(position["pointId"], line["lineId"])
+                                    if terminus is not None and pointID is not None:
+                                        output_file.write(",".join([time["time"],
+                                                                line["lineId"],
+                                                                terminus,
+                                                                transport.getVariance(line["lineId"], terminus),
+                                                                str(position["distanceFromPoint"]),
+                                                                pointID]) + "\n")
+    output_file.close()
+
+    input_file.close()
+
+
+def createCSVs(directory_in, directory_out, transport):
+    for i in range(1, 14):
+        jsonToCSV(directory_in + "/vehiclePosition{:02d}.json".format(i),
+                  directory_out + "/vehiclePosition{:02d}.csv".format(i), transport)
+
+
+def main():
+    parentStation = getParentStation("../Data/gtfs23Sept/stops.txt")
+    lines = getLineInfo("../Data/Stops Distance.csv")
+    stopsName = getStopsName("../Data/gtfs23Sept/stops.txt")
+    transport = Transport(parentStation, lines, stopsName)
+    createCSVs("../Data/JSON", "../Data/CSV", transport)
+
+
+if __name__ == '__main__':
+    main()
