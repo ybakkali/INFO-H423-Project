@@ -14,7 +14,7 @@ def getAllVehicles(allPositions, transport):
     allVehicles = {}
 
     for line in allPositions.keys():
-        line = ("2", "1")  # TEST
+
         positions = allPositions[line]
 
         # Group + sorted by time
@@ -34,7 +34,7 @@ def getAllVehicles(allPositions, transport):
                     vehicles.append([t.pop(0)])
 
         allVehicles[line] = vehicles
-        break  # TEST
+
     return allVehicles
 
 
