@@ -90,3 +90,27 @@ def getPositions(file_path, transport):
     input_file.close()
 
     return positions
+
+
+def getPositionsFromCSV(file_path):
+    positions = {}
+
+    with open(file_path, "r") as file:
+        file.readline()
+        for line in file:
+            info = line.strip().split(",")
+
+            time = int(info[0])
+            line = info[1]
+            terminus = info[2]
+            variance = info[3]
+            distance = float(info[4])
+            last_stop = info[5]
+
+            if (line, variance) not in positions.keys():
+                positions[(line, variance)] = [(time, last_stop, distance, terminus)]
+
+            else:
+                positions[(line, variance)].append((time, last_stop, distance, terminus))
+
+    return positions

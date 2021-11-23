@@ -22,14 +22,16 @@ def jsonToCSV(input_file_path, output_file_path, transport):
                             for position in line["vehiclePositions"]:
                                 if position is not None:
                                     terminus = transport.getRealStop(position["directionId"], line["lineId"])
-                                    pointID = transport.getRealStop(position["pointId"], line["lineId"])
-                                    if terminus is not None and pointID is not None:
-                                        output_file.write(",".join([time["time"],
-                                                                line["lineId"],
-                                                                terminus,
-                                                                transport.getVariance(line["lineId"], terminus),
-                                                                str(position["distanceFromPoint"]),
-                                                                pointID]) + "\n")
+                                    if terminus is not None:
+                                        variance = transport.getVariance(line["lineId"], terminus)
+                                        pointID = transport.getRealStop(position["pointId"], line["lineId"], variance)
+                                        if pointID is not None:
+                                            output_file.write(",".join([time["time"],
+                                                                    line["lineId"],
+                                                                    terminus,
+                                                                    variance,
+                                                                    str(position["distanceFromPoint"]),
+                                                                    pointID]) + "\n")
     output_file.close()
 
     input_file.close()

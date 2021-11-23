@@ -1,37 +1,8 @@
-from Script.Analyze import analyseSpeed, getAllVehicles, groupSortByTime, analyseStopsID
-from Script.ExtractData import getParentStation, getLineInfo, getStopsName, getPositions
+from Script.Analyze import analyseSpeed, groupSortByTime
+from Script.ExtractData import getParentStation, getLineInfo, getStopsName, getPositionsFromCSV
 
 # data["data"][250]["Responses"][0]["lines"][0]["vehiclePositions"]
 from Script.Transport import Transport
-
-
-def getPositionsFromCSV(file_path):
-    positions = {}
-    i = 0  # TEST
-    with open(file_path, "r") as file:
-        file.readline()
-        for line in file:
-            info = line.strip().split(",")
-
-            time = int(info[0])
-            line = info[1]
-            terminus = info[2]
-            variance = info[3]
-            distance = float(info[4])
-            last_stop = info[5]
-
-            #if line == "71":  # TEST
-            #i += 1  # TEST
-            #if i > 1000: break # TEST
-            """
-                if variance != "0":
-            """
-            if (line, variance) not in positions.keys():
-                positions[(line, variance)] = [(time, last_stop, distance, terminus)]
-            else:
-                positions[(line, variance)].append((time, last_stop, distance, terminus))
-
-    return positions
 
 
 def createVehiclesID(allVehicles, file_path):
@@ -92,6 +63,7 @@ def getAllVehiclesTest(positions, transport):
     return allVehicles
 
 
+"""
 def yoyo(positions, transport):
     lines = [p[0] for p in positions.keys() if p[1] == "0"]
     lines.sort(key=lambda x: int(x))
@@ -116,6 +88,7 @@ def yoyo(positions, transport):
 
         print("Line", str(line), ":", str(j), "not in line |", str(k), "in line")
     print("Total :", str(a), "not in line |", str(b), "in line")
+"""
 
 
 def main():
@@ -126,11 +99,11 @@ def main():
     transport = Transport(parentStation, lines, stopsName)
 
     # createCSVs("../Data") # Path to data
-    # positions = getPositionsFromCSV("../Data/vehiclePosition02.csv")
+    positions = getPositionsFromCSV("../Data/CSV/vehiclePosition01.csv")
 
     # yoyo(positions, transport)
     # createVehiclesID(getAllVehicles(positions, transport), "../Data/vehicleIDPosition01.csv")
-    # analyseSpeed(positions, transport)
+    analyseSpeed(positions, transport)
 
     # analyseStopsID(list(stopsName.keys()), positions)
 

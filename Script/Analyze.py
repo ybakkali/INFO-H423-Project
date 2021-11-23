@@ -10,45 +10,43 @@ def analyseSpeed(positions, transport):
         transport.printVehicles(vehicles)
 
 
-def getAllVehicles(positions, transport):
+def getAllVehicles(allPositions, transport):
     allVehicles = {}
 
-    for k in positions.keys():
-        if k[1] != "0":
-            position = positions[k]
+    for line in allPositions.keys():
+        line = ("2", "1")  # TEST
+        positions = allPositions[line]
 
-            # Remove technical stops
-            position = transport.removeTechnicalStops(position, k)
+        # Group + sorted by time
+        times = groupSortByTime(positions)
 
-            # Group + sorted by time
-            times = groupSortByTime(position)
+        vehicles = [[p] for p in times[0]]
 
-            vehicles = [[p] for p in times[0]]
+        for t in times[1:]:
+            while len(t) > 0:
 
-            for t in times[1:]:
-                while len(t) > 0:
+                index = transport.getIndexClosestVehicle(t[0], vehicles, line)
 
-                    index = transport.getIndexClosestVehicle(t[0], vehicles, k)
+                if index != -1:
+                    vehicles[index].append(t.pop(0))
 
-                    if index != -1:
-                        vehicles[index].append(t.pop(0))
-                    else:  # Not found
-                        vehicles.append([t.pop(0)])
+                else:  # Not found
+                    vehicles.append([t.pop(0)])
 
-            allVehicles[k] = vehicles
-
+        allVehicles[line] = vehicles
+        break  # TEST
     return allVehicles
 
 
-def groupSortByTime(position):
-    position.sort(key=lambda x: x[0])
+def groupSortByTime(positions):
+    positions.sort(key=lambda x: x[0])
     times = []
     last_time = "-1"
-    for p in position:
-        if last_time != p[0]:
-            last_time = p[0]
+    for position in positions:
+        if last_time != position[0]:
+            last_time = position[0]
             times.append([])
-        times[-1].append(p)
+        times[-1].append(position)
 
     return times
 
