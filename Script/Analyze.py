@@ -110,3 +110,61 @@ def analyseStopsID(stopsID, positions):
 
     not_found = temp
     print("Not found : (" + str(len(not_found)) + ")", not_found)
+
+
+def getAllVehiclesTest(positions, transport):
+    allVehicles = {}
+
+    for k in positions.keys():
+        # k = ("7","2") # TEST
+        position = positions[k]
+
+        # Remove technical stops
+        position = transport.removeTechnicalStops(position, k)
+
+        # Group + sorted by time
+        times = groupSortByTime(position)
+
+        vehicles = [[p] for p in times[0]]
+
+        for t in times[1:]:
+
+            input("Press to continue")
+            print("-" * 150)
+            transport.printVehicles(vehicles)
+            print()
+            print("Positions : " + ", ".join([transport.getStringPos(p) for p in t]))
+
+            while len(t) > 0:
+
+                index = transport.getIndexClosestVehicle(t[0], vehicles, k)
+
+                if index != -1:
+                    vehicles[index].append(t.pop(0))
+                else:  # Not found
+                    vehicles.append([t.pop(0)])
+
+        print("-" * 150)
+        transport.printVehicles(vehicles)
+        allVehicles[k] = vehicles
+
+    return allVehicles
+
+
+def createVehiclesID(allVehicles, file_path):
+    with open(file_path, "w") as file:
+        file.write("Time, LineID, DirectionID, Variance, DistanceFromPoint, PointID, VehicleID \n")
+        for k in allVehicles.keys():
+            vehicles = allVehicles[k]
+            for i in range(len(vehicles)):
+                vehicle = vehicles[i]
+                for position in vehicle:
+                    time = str(position[0])
+                    line = k[0]
+                    terminus = position[3]
+                    variance = str(int(k[1]) - 1)  # Fuck Yahya
+                    distance = str(position[2])
+                    last_stop = position[1]
+                    vehicleID = str(i)
+
+                    file.write(",".join([time, line, terminus, variance, distance, last_stop, vehicleID]) + "\n")

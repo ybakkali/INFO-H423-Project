@@ -26,6 +26,7 @@ def jsonToCSV(input_file_path, output_file_path, transport):
                                         variance = transport.getVariance(line["lineId"], terminus)
                                         pointID = transport.getRealStop(position["pointId"], line["lineId"], variance)
                                         if pointID is not None:
+                                            # TODO Clean distanceFromPoint > d(stop_2) - d(stop_1)
                                             output_file.write(",".join([time["time"],
                                                                     line["lineId"],
                                                                     terminus,

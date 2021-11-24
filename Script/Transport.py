@@ -47,7 +47,7 @@ class Transport:
         for i in range(len(vehicles) - 1, -1, -1):
             vehicle = vehicles[i]
 
-            if vehicle[-1][3] == position[3]:  # Same terminus
+            if (vehicle[-1][3] == position[3]) and ((position[0] - vehicle[-1][0]) < 120000):  # Same terminus + timeout 2 minutes TODO distance limit
                 current_stop_dist = self.getIndexStop(position[1], line) - self.getIndexStop(vehicle[-1][1], line)
 
                 if (vehicle[-1][0] < position[0]) and ((current_stop_dist == 0 and vehicle[-1][2] <= position[2]) or (
