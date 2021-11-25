@@ -21,17 +21,20 @@ def jsonToCSV(input_file_path, output_file_path, transport):
                         if line is not None:
                             for position in line["vehiclePositions"]:
                                 if position is not None:
-                                    terminus = transport.getRealStop(position["directionId"], line["lineId"])
+
+                                    line_id = line["lineId"]
+                                    terminus = transport.getRealStop(position["directionId"], line_id)
                                     if terminus is not None:
-                                        variance = transport.getVariance(line["lineId"], terminus)
-                                        pointID = transport.getRealStop(position["pointId"], line["lineId"], variance)
-                                        if pointID is not None:
-                                            # TODO Clean distanceFromPoint > d(stop_2) - d(stop_1)
+                                        variance = transport.getVariance(line_id, terminus)
+                                        pointID = transport.getRealStop(position["pointId"], line_id, variance)
+                                        distanceFromPoint = position["distanceFromPoint"]
+                                        if pointID is not None and transport.isDistanceValid((line_id, variance), pointID, distanceFromPoint):
+
                                             output_file.write(",".join([time["time"],
-                                                                    line["lineId"],
+                                                                    line_id,
                                                                     terminus,
                                                                     variance,
-                                                                    str(position["distanceFromPoint"]),
+                                                                    str(distanceFromPoint),
                                                                     pointID]) + "\n")
     output_file.close()
 

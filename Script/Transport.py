@@ -47,10 +47,10 @@ class Transport:
         for i in range(len(vehicles) - 1, -1, -1):
             vehicle = vehicles[i]
 
-            if (vehicle[-1][3] == position[3]) and ((position[0] - vehicle[-1][0]) < 120000):  # Same terminus + timeout 2 minutes TODO distance limit
+            if (vehicle[-1][3] == position[3]) and ((position[0] - vehicle[-1][0]) < 120000):
                 current_stop_dist = self.getIndexStop(position[1], line) - self.getIndexStop(vehicle[-1][1], line)
 
-                if (vehicle[-1][0] < position[0]) and ((current_stop_dist == 0 and vehicle[-1][2] <= position[2]) or (
+                if (current_stop_dist <= 1) and (vehicle[-1][0] < position[0]) and ((current_stop_dist == 0 and vehicle[-1][2] <= position[2]) or (
                         current_stop_dist > 0)):  # Later time + Forward
 
                     if index == -1:  # first valid
@@ -78,6 +78,10 @@ class Transport:
             return "2"
         else:
             raise
+
+    def isDistanceValid(self, line, pointID, distanceFromPoint):
+        i = self.getIndexStop(pointID, line)
+        return (i + 1 == len(self.lines[line])) or (self.lines[line][i+1][1] - self.lines[line][i][1] >= distanceFromPoint)
 
     def printVehicles(self, vehicles):
         for v in range(len(vehicles)):

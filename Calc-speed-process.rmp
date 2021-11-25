@@ -13,7 +13,7 @@
     <parameter key="encoding" value="SYSTEM"/>
     <process expanded="true">
       <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Read CSV Positions" width="90" x="45" y="34">
-        <parameter key="csv_file" value="C:/Users/Maxime Hauwaert/PycharmProjects/INFO-H423-Project/Data/CSV/vehicleIDPosition01.csv"/>
+        <parameter key="csv_file" value="D:/PycharmProjects/Data/CSV/vehicleIDPosition01.csv"/>
         <parameter key="column_separators" value=","/>
         <parameter key="trim_lines" value="false"/>
         <parameter key="use_quotes" value="true"/>
@@ -53,18 +53,18 @@
           <parameter key="Time" value="ascending"/>
         </list>
       </operator>
-      <operator activated="true" class="filter_examples" compatibility="9.10.001" expanded="true" height="103" name="Filter Examples (2)" width="90" x="380" y="34">
-        <parameter key="parameter_expression" value=""/>
+      <operator activated="true" class="filter_examples" compatibility="9.10.001" expanded="true" height="103" name="Filter Examples (2)" width="90" x="313" y="34">
+        <parameter key="parameter_expression" value="DistanceFromPoint == 0"/>
         <parameter key="condition_class" value="custom_filters"/>
         <parameter key="invert_filter" value="false"/>
         <list key="filters_list">
-          <parameter key="filters_entry_key" value="LineID.eq.50"/>
+          <parameter key="filters_entry_key" value="DistanceFromPoint.eq.0"/>
         </list>
         <parameter key="filters_logic_and" value="true"/>
         <parameter key="filters_check_metadata" value="true"/>
       </operator>
       <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Read CSV distance" width="90" x="45" y="187">
-        <parameter key="csv_file" value="C:/Users/Maxime Hauwaert/PycharmProjects/INFO-H423-Project/Stops Distance.csv"/>
+        <parameter key="csv_file" value="D:/PycharmProjects/Stops Distance.csv"/>
         <parameter key="column_separators" value=","/>
         <parameter key="trim_lines" value="false"/>
         <parameter key="use_quotes" value="true"/>
@@ -103,26 +103,16 @@
         </list>
         <parameter key="read_not_matching_values_as_missings" value="false"/>
       </operator>
-      <operator activated="true" class="filter_examples" compatibility="9.10.001" expanded="true" height="103" name="Filter Examples" width="90" x="179" y="187">
-        <parameter key="parameter_expression" value=""/>
-        <parameter key="condition_class" value="custom_filters"/>
-        <parameter key="invert_filter" value="false"/>
-        <list key="filters_list">
-          <parameter key="filters_entry_key" value="numero_lig.eq.50"/>
-        </list>
-        <parameter key="filters_logic_and" value="true"/>
-        <parameter key="filters_check_metadata" value="true"/>
-      </operator>
-      <operator activated="true" class="generate_attributes" compatibility="9.10.001" expanded="true" height="82" name="Generate Attributes (4)" width="90" x="313" y="187">
+      <operator activated="true" class="generate_attributes" compatibility="9.10.001" expanded="true" height="82" name="Generate Attributes (4)" width="90" x="179" y="187">
         <list key="function_descriptions">
-          <parameter key="New-var" value="Variante-1"/>
+          <parameter key="Variante" value="Variante-1"/>
         </list>
         <parameter key="keep_all" value="true"/>
       </operator>
-      <operator activated="true" class="select_attributes" compatibility="9.10.001" expanded="true" height="82" name="Select Attributes (2)" width="90" x="447" y="187">
+      <operator activated="true" class="select_attributes" compatibility="9.10.001" expanded="true" height="82" name="Select Attributes (2)" width="90" x="380" y="187">
         <parameter key="attribute_filter_type" value="subset"/>
         <parameter key="attribute" value=""/>
-        <parameter key="attributes" value="Distance|numero_lig|stop_id|New-var"/>
+        <parameter key="attributes" value="Distance|numero_lig|stop_id|succession|Variante"/>
         <parameter key="use_except_expression" value="false"/>
         <parameter key="value_type" value="attribute_value"/>
         <parameter key="use_value_type_exception" value="false"/>
@@ -133,27 +123,22 @@
         <parameter key="invert_selection" value="false"/>
         <parameter key="include_special_attributes" value="false"/>
       </operator>
-      <operator activated="true" class="concurrency:join" compatibility="9.10.001" expanded="true" height="82" name="Join" width="90" x="581" y="34">
+      <operator activated="true" class="multiply" compatibility="9.10.001" expanded="true" height="103" name="Multiply" width="90" x="514" y="187"/>
+      <operator activated="true" class="concurrency:join" compatibility="9.10.001" expanded="true" height="82" name="Join" width="90" x="648" y="34">
         <parameter key="remove_double_attributes" value="true"/>
         <parameter key="join_type" value="left"/>
         <parameter key="use_id_attribute_as_key" value="false"/>
         <list key="key_attributes">
           <parameter key="LineID" value="numero_lig"/>
           <parameter key="PointID" value="stop_id"/>
-          <parameter key="Variance" value="New-var"/>
+          <parameter key="Variance" value="Variante"/>
         </list>
         <parameter key="keep_both_join_attributes" value="false"/>
       </operator>
-      <operator activated="true" class="generate_attributes" compatibility="9.10.001" expanded="true" height="82" name="Generate Attributes" width="90" x="715" y="34">
-        <list key="function_descriptions">
-          <parameter key="Real-pos" value="Distance+DistanceFromPoint"/>
-        </list>
-        <parameter key="keep_all" value="true"/>
-      </operator>
-      <operator activated="true" class="time_series:differentiation" compatibility="9.10.001" expanded="true" height="68" name="Differentiate" width="90" x="849" y="34">
+      <operator activated="true" class="time_series:differentiation" compatibility="9.10.001" expanded="true" height="68" name="Differentiate" width="90" x="782" y="34">
         <parameter key="attribute_filter_type" value="subset"/>
         <parameter key="attribute" value="Distance"/>
-        <parameter key="attributes" value="Real-pos|Time|VehicleID"/>
+        <parameter key="attributes" value="LineID|succession|Time|VehicleID|Distance"/>
         <parameter key="use_except_expression" value="false"/>
         <parameter key="value_type" value="numeric"/>
         <parameter key="use_value_type_exception" value="false"/>
@@ -168,38 +153,281 @@
         <parameter key="lag" value="1"/>
         <parameter key="differentiation_method" value="subtraction"/>
       </operator>
-      <operator activated="true" class="generate_attributes" compatibility="9.10.001" expanded="true" height="82" name="Generate Attributes (2)" width="90" x="983" y="34">
+      <operator activated="true" class="generate_attributes" compatibility="9.10.001" expanded="true" height="82" name="Generate Attributes (2)" width="90" x="916" y="34">
         <list key="function_descriptions">
-          <parameter key="Speed" value="if(VehicleID_diff==0,([Real-pos_diff]/1000)/(Time_diff/3600000),0)"/>
+          <parameter key="Speed" value="if(VehicleID_diff==0 &amp;&amp; LineID_diff == 0,([Distance_diff]/1000)/(Time_diff/3600000),0)"/>
         </list>
         <parameter key="keep_all" value="true"/>
       </operator>
-      <operator activated="false" class="write_csv" compatibility="9.10.001" expanded="true" height="82" name="Write CSV" width="90" x="983" y="187">
-        <parameter key="csv_file" value="C:/Users/damie/OneDrive/ULB/Data mining/Project/Test-calc-speed-L71/Speed-L71_v1.csv"/>
-        <parameter key="column_separator" value=";"/>
+      <operator activated="true" class="filter_examples" compatibility="9.10.001" expanded="true" height="103" name="Filter Examples (6)" width="90" x="1050" y="34">
+        <parameter key="parameter_expression" value="DistanceFromPoint == 0"/>
+        <parameter key="condition_class" value="custom_filters"/>
+        <parameter key="invert_filter" value="false"/>
+        <list key="filters_list">
+          <parameter key="filters_entry_key" value="Speed.ne.0"/>
+          <parameter key="filters_entry_key" value="succession_diff.eq.1"/>
+        </list>
+        <parameter key="filters_logic_and" value="true"/>
+        <parameter key="filters_check_metadata" value="true"/>
+      </operator>
+      <operator activated="true" class="select_attributes" compatibility="9.10.001" expanded="true" height="82" name="Select Attributes (future)" width="90" x="1184" y="34">
+        <parameter key="attribute_filter_type" value="subset"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value="DirectionID|LineID|numero_lig|Speed|stop_id|Variance|PointID"/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Read CSV distance (2)" width="90" x="380" y="391">
+        <parameter key="csv_file" value="D:\PycharmProjects\Data\gtfs23Sept\stops.txt"/>
+        <parameter key="column_separators" value=","/>
+        <parameter key="trim_lines" value="false"/>
+        <parameter key="use_quotes" value="true"/>
+        <parameter key="quotes_character" value="&quot;"/>
+        <parameter key="escape_character" value="\"/>
+        <parameter key="skip_comments" value="true"/>
+        <parameter key="comment_characters" value="#"/>
+        <parameter key="starting_row" value="1"/>
+        <parameter key="parse_numbers" value="true"/>
+        <parameter key="decimal_character" value="."/>
+        <parameter key="grouped_digits" value="false"/>
+        <parameter key="grouping_character" value=","/>
+        <parameter key="infinity_representation" value=""/>
+        <parameter key="date_format" value=""/>
+        <parameter key="first_row_as_names" value="true"/>
+        <list key="annotations"/>
+        <parameter key="time_zone" value="SYSTEM"/>
+        <parameter key="locale" value="English (United States)"/>
+        <parameter key="encoding" value="windows-1252"/>
+        <parameter key="read_all_values_as_polynominal" value="false"/>
+        <list key="data_set_meta_data_information">
+          <parameter key="0" value="stop_id.true.polynominal.attribute"/>
+          <parameter key="1" value="stop_code.true.polynominal.attribute"/>
+          <parameter key="2" value="stop_name.true.polynominal.attribute"/>
+          <parameter key="3" value="stop_desc.true.polynominal.attribute"/>
+          <parameter key="4" value="stop_lat.true.real.attribute"/>
+          <parameter key="5" value="stop_lon.true.real.attribute"/>
+          <parameter key="6" value="zone_id.true.polynominal.attribute"/>
+          <parameter key="7" value="stop_url.true.polynominal.attribute"/>
+          <parameter key="8" value="location_type.true.integer.attribute"/>
+          <parameter key="9" value="parent_station.true.integer.attribute"/>
+        </list>
+        <parameter key="read_not_matching_values_as_missings" value="true"/>
+      </operator>
+      <operator activated="true" class="select_attributes" compatibility="9.10.001" expanded="true" height="82" name="Select Attributes (4)" width="90" x="581" y="391">
+        <parameter key="attribute_filter_type" value="subset"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value="stop_id|stop_name"/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="concurrency:join" compatibility="9.10.001" expanded="true" height="82" name="Join (4)" width="90" x="715" y="289">
+        <parameter key="remove_double_attributes" value="true"/>
+        <parameter key="join_type" value="left"/>
+        <parameter key="use_id_attribute_as_key" value="false"/>
+        <list key="key_attributes">
+          <parameter key="stop_id" value="stop_id"/>
+        </list>
+        <parameter key="keep_both_join_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="multiply" compatibility="9.10.001" expanded="true" height="103" name="Multiply (2)" width="90" x="849" y="289"/>
+      <operator activated="true" class="concurrency:join" compatibility="9.10.001" expanded="true" height="82" name="Join (2)" width="90" x="1050" y="289">
+        <parameter key="remove_double_attributes" value="false"/>
+        <parameter key="join_type" value="inner"/>
+        <parameter key="use_id_attribute_as_key" value="false"/>
+        <list key="key_attributes">
+          <parameter key="numero_lig" value="numero_lig"/>
+          <parameter key="Variante" value="Variante"/>
+        </list>
+        <parameter key="keep_both_join_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="filter_examples" compatibility="9.10.001" expanded="true" height="103" name="Filter Examples (5)" width="90" x="1184" y="289">
+        <parameter key="parameter_expression" value="succession_from_ES2 - succession == 1"/>
+        <parameter key="condition_class" value="expression"/>
+        <parameter key="invert_filter" value="false"/>
+        <list key="filters_list">
+          <parameter key="filters_entry_key" value="numero_lig.eq.1"/>
+          <parameter key="filters_entry_key" value="New-var.eq.0"/>
+        </list>
+        <parameter key="filters_logic_and" value="true"/>
+        <parameter key="filters_check_metadata" value="true"/>
+      </operator>
+      <operator activated="true" class="select_attributes" compatibility="9.10.001" expanded="true" height="82" name="Select Attributes" width="90" x="1318" y="289">
+        <parameter key="attribute_filter_type" value="subset"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value="numero_lig|stop_id|stop_id_from_ES2|succession|Variante|stop_name|stop_name_from_ES2"/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="aggregate" compatibility="9.10.001" expanded="true" height="82" name="Aggregate" width="90" x="1385" y="34">
+        <parameter key="use_default_aggregation" value="false"/>
+        <parameter key="attribute_filter_type" value="all"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="default_aggregation_function" value="average"/>
+        <list key="aggregation_attributes">
+          <parameter key="Speed" value="average"/>
+          <parameter key="Speed" value="count"/>
+        </list>
+        <parameter key="group_by_attributes" value="LineID|Variance|PointID"/>
+        <parameter key="count_all_combinations" value="false"/>
+        <parameter key="only_distinct" value="false"/>
+        <parameter key="ignore_missings" value="true"/>
+      </operator>
+      <operator activated="true" class="concurrency:join" compatibility="9.10.001" expanded="true" height="82" name="Join (3)" width="90" x="1586" y="187">
+        <parameter key="remove_double_attributes" value="true"/>
+        <parameter key="join_type" value="right"/>
+        <parameter key="use_id_attribute_as_key" value="false"/>
+        <list key="key_attributes">
+          <parameter key="LineID" value="numero_lig"/>
+          <parameter key="Variance" value="Variante"/>
+          <parameter key="PointID" value="stop_id_from_ES2"/>
+        </list>
+        <parameter key="keep_both_join_attributes" value="true"/>
+      </operator>
+      <operator activated="true" class="blending:sort" compatibility="9.10.001" expanded="true" height="82" name="Sort (2)" width="90" x="1720" y="187">
+        <list key="sort_by">
+          <parameter key="numero_lig" value="ascending"/>
+          <parameter key="Variance" value="ascending"/>
+          <parameter key="succession" value="ascending"/>
+        </list>
+      </operator>
+      <operator activated="true" class="multiply" compatibility="9.10.001" expanded="true" height="103" name="Multiply (3)" width="90" x="1854" y="187"/>
+      <operator activated="true" class="select_attributes" compatibility="9.10.001" expanded="true" height="82" name="Select Attributes (5)" width="90" x="1854" y="442">
+        <parameter key="attribute_filter_type" value="subset"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value="average(Speed)|count(Speed)|numero_lig|Variante|stop_id|stop_id_from_ES2"/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="blending:rename" compatibility="9.10.001" expanded="true" height="82" name="Rename" width="90" x="1988" y="442">
+        <list key="rename attributes">
+          <parameter key="average(Speed)" value="Speed average"/>
+          <parameter key="numero_lig" value="Line"/>
+          <parameter key="Variante" value="Variance"/>
+          <parameter key="stop_id_from_ES2" value="To"/>
+          <parameter key="stop_id" value="From"/>
+        </list>
+        <parameter key="from_attribute" value=""/>
+        <parameter key="to_attribute" value=""/>
+      </operator>
+      <operator activated="true" class="order_attributes" compatibility="9.10.001" expanded="true" height="82" name="Reorder Attributes (2)" width="90" x="2122" y="442">
+        <parameter key="sort_mode" value="user specified"/>
+        <parameter key="attribute_ordering" value="Line|Variance|From|To|Speed average|count(Speed)"/>
+        <parameter key="use_regular_expressions" value="false"/>
+        <parameter key="handle_unmatched" value="append"/>
+        <parameter key="sort_direction" value="ascending"/>
+      </operator>
+      <operator activated="true" class="write_csv" compatibility="9.10.001" expanded="true" height="82" name="Write CSV" width="90" x="2256" y="442">
+        <parameter key="csv_file" value="D:/PycharmProjects/Data/Speed Average.csv"/>
+        <parameter key="column_separator" value=","/>
         <parameter key="write_attribute_names" value="true"/>
-        <parameter key="quote_nominal_values" value="true"/>
+        <parameter key="quote_nominal_values" value="false"/>
         <parameter key="format_date_attributes" value="true"/>
         <parameter key="date_format" value="yyyy-MM-dd HH:mm:ss"/>
         <parameter key="append_to_file" value="false"/>
         <parameter key="encoding" value="SYSTEM"/>
       </operator>
-      <operator activated="false" class="blending:sort" compatibility="9.10.001" expanded="true" height="82" name="Sort (2)" width="90" x="1184" y="34">
-        <list key="sort_by">
-          <parameter key="Speed" value="ascending"/>
+      <operator activated="true" class="select_attributes" compatibility="9.10.001" expanded="true" height="82" name="Select Attributes (3)" width="90" x="1988" y="187">
+        <parameter key="attribute_filter_type" value="subset"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value="average(Speed)|numero_lig|stop_name|stop_name_from_ES2|Variante|count(Speed)"/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="blending:rename" compatibility="9.10.001" expanded="true" height="82" name="Rename (2)" width="90" x="2122" y="187">
+        <list key="rename attributes">
+          <parameter key="average(Speed)" value="Speed average"/>
+          <parameter key="numero_lig" value="Line"/>
+          <parameter key="Variante" value="Variance"/>
+          <parameter key="stop_name_from_ES2" value="To"/>
+          <parameter key="stop_name" value="From"/>
         </list>
+        <parameter key="from_attribute" value=""/>
+        <parameter key="to_attribute" value=""/>
+      </operator>
+      <operator activated="true" class="order_attributes" compatibility="9.10.001" expanded="true" height="82" name="Reorder Attributes" width="90" x="2256" y="187">
+        <parameter key="sort_mode" value="user specified"/>
+        <parameter key="attribute_ordering" value="Line|Variance|From|To|Speed average|count(Speed)"/>
+        <parameter key="use_regular_expressions" value="false"/>
+        <parameter key="handle_unmatched" value="append"/>
+        <parameter key="sort_direction" value="ascending"/>
       </operator>
       <connect from_op="Read CSV Positions" from_port="output" to_op="Sort" to_port="example set input"/>
       <connect from_op="Sort" from_port="example set output" to_op="Filter Examples (2)" to_port="example set input"/>
       <connect from_op="Filter Examples (2)" from_port="example set output" to_op="Join" to_port="left"/>
-      <connect from_op="Read CSV distance" from_port="output" to_op="Filter Examples" to_port="example set input"/>
-      <connect from_op="Filter Examples" from_port="example set output" to_op="Generate Attributes (4)" to_port="example set input"/>
+      <connect from_op="Read CSV distance" from_port="output" to_op="Generate Attributes (4)" to_port="example set input"/>
       <connect from_op="Generate Attributes (4)" from_port="example set output" to_op="Select Attributes (2)" to_port="example set input"/>
-      <connect from_op="Select Attributes (2)" from_port="example set output" to_op="Join" to_port="right"/>
-      <connect from_op="Join" from_port="join" to_op="Generate Attributes" to_port="example set input"/>
-      <connect from_op="Generate Attributes" from_port="example set output" to_op="Differentiate" to_port="example set"/>
+      <connect from_op="Select Attributes (2)" from_port="example set output" to_op="Multiply" to_port="input"/>
+      <connect from_op="Multiply" from_port="output 1" to_op="Join" to_port="right"/>
+      <connect from_op="Multiply" from_port="output 2" to_op="Join (4)" to_port="left"/>
+      <connect from_op="Join" from_port="join" to_op="Differentiate" to_port="example set"/>
       <connect from_op="Differentiate" from_port="example set" to_op="Generate Attributes (2)" to_port="example set input"/>
-      <connect from_op="Generate Attributes (2)" from_port="example set output" to_port="result 1"/>
+      <connect from_op="Generate Attributes (2)" from_port="example set output" to_op="Filter Examples (6)" to_port="example set input"/>
+      <connect from_op="Filter Examples (6)" from_port="example set output" to_op="Select Attributes (future)" to_port="example set input"/>
+      <connect from_op="Select Attributes (future)" from_port="example set output" to_op="Aggregate" to_port="example set input"/>
+      <connect from_op="Read CSV distance (2)" from_port="output" to_op="Select Attributes (4)" to_port="example set input"/>
+      <connect from_op="Select Attributes (4)" from_port="example set output" to_op="Join (4)" to_port="right"/>
+      <connect from_op="Join (4)" from_port="join" to_op="Multiply (2)" to_port="input"/>
+      <connect from_op="Multiply (2)" from_port="output 1" to_op="Join (2)" to_port="left"/>
+      <connect from_op="Multiply (2)" from_port="output 2" to_op="Join (2)" to_port="right"/>
+      <connect from_op="Join (2)" from_port="join" to_op="Filter Examples (5)" to_port="example set input"/>
+      <connect from_op="Filter Examples (5)" from_port="example set output" to_op="Select Attributes" to_port="example set input"/>
+      <connect from_op="Select Attributes" from_port="example set output" to_op="Join (3)" to_port="right"/>
+      <connect from_op="Aggregate" from_port="example set output" to_op="Join (3)" to_port="left"/>
+      <connect from_op="Join (3)" from_port="join" to_op="Sort (2)" to_port="example set input"/>
+      <connect from_op="Sort (2)" from_port="example set output" to_op="Multiply (3)" to_port="input"/>
+      <connect from_op="Multiply (3)" from_port="output 1" to_op="Select Attributes (3)" to_port="example set input"/>
+      <connect from_op="Multiply (3)" from_port="output 2" to_op="Select Attributes (5)" to_port="example set input"/>
+      <connect from_op="Select Attributes (5)" from_port="example set output" to_op="Rename" to_port="example set input"/>
+      <connect from_op="Rename" from_port="example set output" to_op="Reorder Attributes (2)" to_port="example set input"/>
+      <connect from_op="Reorder Attributes (2)" from_port="example set output" to_op="Write CSV" to_port="input"/>
+      <connect from_op="Select Attributes (3)" from_port="example set output" to_op="Rename (2)" to_port="example set input"/>
+      <connect from_op="Rename (2)" from_port="example set output" to_op="Reorder Attributes" to_port="example set input"/>
+      <connect from_op="Reorder Attributes" from_port="example set output" to_port="result 1"/>
       <portSpacing port="source_input 1" spacing="0"/>
       <portSpacing port="sink_result 1" spacing="0"/>
       <portSpacing port="sink_result 2" spacing="0"/>
