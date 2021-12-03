@@ -47,26 +47,35 @@ class Transport:
         for i in range(len(vehicles) - 1, -1, -1):
             vehicle = vehicles[i]
 
-            if (vehicle[-1][3] == position[3]) and ((position[0] - vehicle[-1][0]) < 120000):
-                current_stop_dist = self.getIndexStop(position[1], line) - self.getIndexStop(vehicle[-1][1], line)
+            if (vehicle[-1][3] == position[3]) and (vehicle[-1][0] < position[0]):  # Same Terminus + Later time
+                if ((position[0] - vehicle[-1][0]) < 120000) and (self.getSpeed(vehicle[-1], position, line) <= 100):  # 2 min timeout + 100km/h limit
+                    current_stop_dist = self.getIndexStop(position[1], line) - self.getIndexStop(vehicle[-1][1], line)
 
-                if (current_stop_dist <= 1) and (vehicle[-1][0] < position[0]) and ((current_stop_dist == 0 and vehicle[-1][2] <= position[2]) or (
-                        current_stop_dist > 0)):  # Later time + Forward
+                    if (current_stop_dist <= 1) and ((current_stop_dist == 0 and vehicle[-1][2] <= position[2]) or (
+                            current_stop_dist > 0)):  # Forward
 
-                    if index == -1:  # first valid
-                        index = i
-                        stop_dist = current_stop_dist
-
-                    elif current_stop_dist < stop_dist:  # current closer than last
-                        index = i
-                        stop_dist = current_stop_dist
-
-                    elif current_stop_dist == stop_dist:  # current + last same segment
-                        if vehicle[-1][2] <= vehicles[index][-1][2]:
+                        if index == -1:  # first valid
                             index = i
                             stop_dist = current_stop_dist
 
+                        elif current_stop_dist < stop_dist:  # current closer than last
+                            index = i
+                            stop_dist = current_stop_dist
+
+                        elif current_stop_dist == stop_dist:  # current + last same segment
+                            if vehicle[-1][2] <= vehicles[index][-1][2]:
+                                index = i
+                                stop_dist = current_stop_dist
+
         return index
+
+    def getSpeed(self, vehicle_last_position, position, line):
+        d = ((self.getDistanceStop(position[1], line) + position[2]) - (self.getDistanceStop(vehicle_last_position[1], line) + vehicle_last_position[2])) / 1000
+        t = (position[0] - vehicle_last_position[0]) / 3600000
+        return d/t
+
+    def getDistanceStop(self, stop, line):
+        return self.lines[line][self.getIndexStop(stop, line)][1]
 
     def getIndexStop(self, stop, line):
         return self.getStops(line).index(stop)

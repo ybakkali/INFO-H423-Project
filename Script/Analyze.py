@@ -12,7 +12,7 @@ def analyseSpeed(positions, transport):
 
 def getAllVehicles(allPositions, transport):
     allVehicles = {}
-
+    i = 0
     for line in allPositions.keys():
 
         positions = allPositions[line]
@@ -34,6 +34,8 @@ def getAllVehicles(allPositions, transport):
                     vehicles.append([t.pop(0)])
 
         allVehicles[line] = vehicles
+        i += 1
+        print(i, "/", len(allPositions.keys()), "lines done")
 
     return allVehicles
 
