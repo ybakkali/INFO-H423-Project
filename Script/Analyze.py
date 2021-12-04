@@ -13,6 +13,7 @@ def analyseSpeed(positions, transport):
 def getAllVehicles(allPositions, transport):
     allVehicles = {}
     i = 0
+    print("0 /", len(allPositions.keys()), "lines done")
     for line in allPositions.keys():
 
         positions = allPositions[line]
@@ -21,8 +22,17 @@ def getAllVehicles(allPositions, transport):
         times = groupSortByTime(positions)
 
         vehicles = [[p] for p in times[0]]
+        oldVehicles = []
 
         for t in times[1:]:
+
+            a = 0
+            while a < len(vehicles):
+                if t[0][0] - vehicles[a][-1][0] > 220000:
+                    oldVehicles.append(vehicles.pop(a))
+                else:
+                    a += 1
+
             while len(t) > 0:
 
                 index = transport.getIndexClosestVehicle(t[0], vehicles, line)
@@ -33,7 +43,7 @@ def getAllVehicles(allPositions, transport):
                 else:  # Not found
                     vehicles.append([t.pop(0)])
 
-        allVehicles[line] = vehicles
+        allVehicles[line] = oldVehicles + vehicles
         i += 1
         print(i, "/", len(allPositions.keys()), "lines done")
 
