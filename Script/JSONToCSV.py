@@ -5,13 +5,13 @@ from Script.ExtractData import getParentStation, getLineInfo, getStopsName
 from Script.Transport import Transport
 
 
-def jsonToCSV(input_file_path, output_file_path, transport):
+def jsonToCSV(input_file_path, output_file_path, transport, mode="w"):
     input_file = open(input_file_path, "r")
     data = json.load(input_file)
 
-    output_file = open(output_file_path, "w")
+    output_file = open(output_file_path, mode)
 
-    output_file.write("Time, LineID, DirectionID, Variance, DistanceFromPoint, PointID \n")
+    # output_file.write("Time, LineID, DirectionID, Variance, DistanceFromPoint, PointID \n")
 
     for time in data["data"]:
         if time is not None:
@@ -46,9 +46,24 @@ def createCSVs(directory_in, directory_out, transport):
         os.makedirs(directory_out)
     print("0 / 13 (0%) done")
     for i in range(1, 14):
+        with open(directory_out + "/vehiclePosition{:02d}.csv".format(i), "w") as output_file:
+            output_file.write("Time, LineID, DirectionID, Variance, DistanceFromPoint, PointID \n")
+
         jsonToCSV(directory_in + "/vehiclePosition{:02d}.json".format(i),
                   directory_out + "/vehiclePosition{:02d}.csv".format(i), transport)
         print(str(i) + " / 13 (" + str(round(i / 13 * 100)) + "%) done")
+
+
+def createCSV(directory_in, directory_out, transport):
+    if not os.path.exists(directory_out):
+        os.makedirs(directory_out)
+    with open(directory_out + "/vehiclePosition.csv", "w") as output_file:
+        output_file.write("Time, LineID, DirectionID, Variance, DistanceFromPoint, PointID \n")
+    print("0 / 13 done (0%)")
+    for i in range(1, 14):
+        jsonToCSV(directory_in + "/vehiclePosition{:02d}.json".format(i),
+                  directory_out + "/vehiclePosition.csv", transport, "a")
+        print(str(i) + " / 13 done (" + str(round(i / 13 * 100)) + "%)")
 
 
 def main():
@@ -56,7 +71,8 @@ def main():
     lines = getLineInfo("../Data/Stops Distance.csv")
     stopsName = getStopsName("../Data/gtfs23Sept/stops.txt")
     transport = Transport(parentStation, lines, stopsName)
-    createCSVs("../Data/JSON", "../Data/CSV", transport)
+    # createCSVs("../Data/JSON", "../Data/CSV", transport)
+    createCSV("../Data/JSON", "../Data/CSV", transport)
 
 
 if __name__ == '__main__':
