@@ -13,7 +13,7 @@
     <parameter key="encoding" value="SYSTEM"/>
     <process expanded="true">
       <operator activated="true" class="read_csv" compatibility="9.10.000" expanded="true" height="68" name="Read CSV" width="90" x="45" y="34">
-        <parameter key="csv_file" value="C:\Users\damie\OneDrive\ULB\Data mining\Project\Q3\Speed (1).csv"/>
+        <parameter key="csv_file" value="C:\Users\damie\Documents\GitHub\INFO-H423-Project\Data\SpeedTimeSeries.csv"/>
         <parameter key="column_separators" value=","/>
         <parameter key="trim_lines" value="false"/>
         <parameter key="use_quotes" value="true"/>
@@ -27,7 +27,7 @@
         <parameter key="grouped_digits" value="false"/>
         <parameter key="grouping_character" value=","/>
         <parameter key="infinity_representation" value=""/>
-        <parameter key="date_format" value=""/>
+        <parameter key="date_format" value="yyyy-MM-dd HH:mm:ss"/>
         <parameter key="first_row_as_names" value="true"/>
         <list key="annotations"/>
         <parameter key="time_zone" value="SYSTEM"/>
@@ -39,8 +39,9 @@
           <parameter key="1" value="Variance.true.integer.attribute"/>
           <parameter key="2" value="From.true.polynominal.attribute"/>
           <parameter key="3" value="To.true.polynominal.attribute"/>
-          <parameter key="4" value="Speed.true.real.attribute"/>
-          <parameter key="5" value="Time.true.integer.attribute"/>
+          <parameter key="4" value="Time.true.date_time.attribute"/>
+          <parameter key="5" value="Speed.true.real.attribute"/>
+          <parameter key="6" value="VehicleID.true.integer.attribute"/>
         </list>
         <parameter key="read_not_matching_values_as_missings" value="false"/>
       </operator>
