@@ -61,9 +61,9 @@
         <parameter key="condition_class" value="custom_filters"/>
         <parameter key="invert_filter" value="false"/>
         <list key="filters_list">
-          <parameter key="filters_entry_key" value="LineID.equals.71"/>
-          <parameter key="filters_entry_key" value="Variance.eq.0"/>
-          <parameter key="filters_entry_key" value="PointID.equals.2397"/>
+          <parameter key="filters_entry_key" value="LineID.equals.2"/>
+          <parameter key="filters_entry_key" value="Variance.eq.1"/>
+          <parameter key="filters_entry_key" value="PointID.equals.8361"/>
         </list>
         <parameter key="filters_logic_and" value="true"/>
         <parameter key="filters_check_metadata" value="true"/>
@@ -134,9 +134,9 @@
         <parameter key="condition_class" value="custom_filters"/>
         <parameter key="invert_filter" value="false"/>
         <list key="filters_list">
-          <parameter key="filters_entry_key" value="LineID.equals.71"/>
-          <parameter key="filters_entry_key" value="Variance.eq.0"/>
-          <parameter key="filters_entry_key" value="PointID.equals.3518B"/>
+          <parameter key="filters_entry_key" value="LineID.equals.2"/>
+          <parameter key="filters_entry_key" value="Variance.eq.1"/>
+          <parameter key="filters_entry_key" value="PointID.equals.8431"/>
         </list>
         <parameter key="filters_logic_and" value="true"/>
         <parameter key="filters_check_metadata" value="true"/>
@@ -298,24 +298,18 @@
             <list key="aggregation_attributes">
               <parameter key="Time_in_minutes" value="average"/>
             </list>
-            <parameter key="group_by_attributes" value="Hour|DayOfWeek"/>
+            <parameter key="group_by_attributes" value="Hour|Day"/>
             <parameter key="count_all_combinations" value="false"/>
             <parameter key="only_distinct" value="false"/>
             <parameter key="ignore_missings" value="true"/>
           </operator>
-          <operator activated="true" class="generate_attributes" compatibility="9.10.000" expanded="true" height="82" name="Generate Attributes (2)" width="90" x="1251" y="34">
-            <list key="function_descriptions">
-              <parameter key="Day-of-week-by-number" value="if(DayOfWeek==&quot;Mon&quot;, 1, if(DayOfWeek==&quot;Tue&quot;, 2, if(DayOfWeek==&quot;Wed&quot;, 3, if(DayOfWeek==&quot;Thu&quot;, 4, if(DayOfWeek==&quot;Fri&quot;, 5, if(DayOfWeek==&quot;Sat&quot;, 6, if(DayOfWeek==&quot;Sun&quot;, 7, &quot;ERROR&quot;)))))))"/>
-            </list>
-            <parameter key="keep_all" value="true"/>
-          </operator>
-          <operator activated="true" class="blending:sort" compatibility="9.10.000" expanded="true" height="82" name="Sort" width="90" x="1385" y="34">
+          <operator activated="true" class="blending:sort" compatibility="9.10.000" expanded="true" height="82" name="Sort" width="90" x="1251" y="34">
             <list key="sort_by">
-              <parameter key="Day-of-week-by-number" value="ascending"/>
+              <parameter key="Day" value="ascending"/>
               <parameter key="Hour" value="ascending"/>
             </list>
           </operator>
-          <operator activated="true" class="read_csv" compatibility="9.10.000" expanded="true" height="68" name="Read Weekdays" width="90" x="1385" y="187">
+          <operator activated="true" class="read_csv" compatibility="9.10.000" expanded="true" height="68" name="Read Weekdays" width="90" x="1251" y="187">
             <parameter key="csv_file" value="C:\Users\damie\Documents\GitHub\INFO-H423-Project\Data\CSV\WeekDay.csv"/>
             <parameter key="column_separators" value=";"/>
             <parameter key="trim_lines" value="false"/>
@@ -338,22 +332,22 @@
             <parameter key="encoding" value="windows-1252"/>
             <parameter key="read_all_values_as_polynominal" value="false"/>
             <list key="data_set_meta_data_information">
-              <parameter key="0" value="Day-of-week-by-number.true.polynominal.attribute"/>
+              <parameter key="0" value="Day.true.integer.attribute"/>
               <parameter key="1" value="Hour.true.integer.attribute"/>
             </list>
             <parameter key="read_not_matching_values_as_missings" value="false"/>
           </operator>
-          <operator activated="true" class="concurrency:join" compatibility="9.10.000" expanded="true" height="82" name="Join" width="90" x="1519" y="34">
+          <operator activated="true" class="concurrency:join" compatibility="9.10.000" expanded="true" height="82" name="Join" width="90" x="1385" y="34">
             <parameter key="remove_double_attributes" value="true"/>
             <parameter key="join_type" value="right"/>
             <parameter key="use_id_attribute_as_key" value="false"/>
             <list key="key_attributes">
-              <parameter key="Day-of-week-by-number" value="Day-of-week-by-number"/>
+              <parameter key="Day" value="Day"/>
               <parameter key="Hour" value="Hour"/>
             </list>
             <parameter key="keep_both_join_attributes" value="false"/>
           </operator>
-          <operator activated="true" class="replace_missing_values" compatibility="9.10.000" expanded="true" height="103" name="Replace Missing Values" width="90" x="1653" y="34">
+          <operator activated="true" class="replace_missing_values" compatibility="9.10.000" expanded="true" height="103" name="Replace Missing Values" width="90" x="1519" y="34">
             <parameter key="return_preprocessing_model" value="false"/>
             <parameter key="create_view" value="false"/>
             <parameter key="attribute_filter_type" value="single"/>
@@ -371,7 +365,7 @@
             <parameter key="default" value="zero"/>
             <list key="columns"/>
           </operator>
-          <operator activated="true" class="generate_id" compatibility="9.10.000" expanded="true" height="82" name="Generate ID" width="90" x="1787" y="34">
+          <operator activated="true" class="generate_id" compatibility="9.10.000" expanded="true" height="82" name="Generate ID" width="90" x="1653" y="34">
             <parameter key="create_nominal_ids" value="false"/>
             <parameter key="offset" value="0"/>
           </operator>
@@ -384,8 +378,7 @@
           <connect from_op="Select Attributes (4)" from_port="example set output" to_op="Numerical to Date" to_port="example set input"/>
           <connect from_op="Numerical to Date" from_port="example set output" to_op="Generate Attributes" to_port="example set input"/>
           <connect from_op="Generate Attributes" from_port="example set output" to_op="Aggregate" to_port="example set input"/>
-          <connect from_op="Aggregate" from_port="example set output" to_op="Generate Attributes (2)" to_port="example set input"/>
-          <connect from_op="Generate Attributes (2)" from_port="example set output" to_op="Sort" to_port="example set input"/>
+          <connect from_op="Aggregate" from_port="example set output" to_op="Sort" to_port="example set input"/>
           <connect from_op="Sort" from_port="example set output" to_op="Join" to_port="left"/>
           <connect from_op="Read Weekdays" from_port="output" to_op="Join" to_port="right"/>
           <connect from_op="Join" from_port="join" to_op="Replace Missing Values" to_port="example set input"/>
@@ -398,22 +391,22 @@
         </process>
       </operator>
       <operator activated="true" class="multiply" compatibility="9.10.000" expanded="true" height="145" name="Multiply (2)" width="90" x="983" y="34"/>
-      <operator activated="true" class="time_series:arima_trainer" compatibility="9.10.000" expanded="true" height="103" name="ARIMA (2)" width="90" x="1117" y="442">
+      <operator activated="true" class="time_series:arima_trainer" compatibility="9.10.000" expanded="true" height="103" name="ARIMA (2)" width="90" x="1117" y="391">
         <parameter key="time_series_attribute" value="average(Time_in_minutes)"/>
         <parameter key="has_indices" value="false"/>
         <parameter key="indices_attribute" value=""/>
-        <parameter key="p:_order_of_the_autoregressive_model" value="2"/>
+        <parameter key="p:_order_of_the_autoregressive_model" value="1"/>
         <parameter key="d:_degree_of_differencing" value="0"/>
         <parameter key="q:_order_of_the_moving-average_model" value="4"/>
         <parameter key="estimate_constant" value="true"/>
         <parameter key="main_criterion" value="aic"/>
       </operator>
-      <operator activated="true" class="time_series:apply_forecast" compatibility="9.10.000" expanded="true" height="82" name="Apply Forecast" width="90" x="1251" y="442">
-        <parameter key="forecast_horizon" value="5"/>
+      <operator activated="true" class="time_series:apply_forecast" compatibility="9.10.000" expanded="true" height="82" name="Apply Forecast" width="90" x="1251" y="391">
+        <parameter key="forecast_horizon" value="3"/>
         <parameter key="add_original_time_series" value="true"/>
         <parameter key="add_combined_time_series" value="true"/>
       </operator>
-      <operator activated="true" class="time_series:forecast_validation" compatibility="9.10.000" expanded="true" height="145" name="Forecast Validation" width="90" x="1117" y="289">
+      <operator activated="true" class="time_series:forecast_validation" compatibility="9.10.000" expanded="true" height="145" name="Forecast Validation" width="90" x="1117" y="238">
         <parameter key="time_series_attribute" value="average(Time_in_minutes)"/>
         <parameter key="has_indices" value="true"/>
         <parameter key="indices_attribute" value="id"/>
@@ -444,7 +437,7 @@
             <parameter key="time_series_attribute" value="average(Time_in_minutes)"/>
             <parameter key="has_indices" value="true"/>
             <parameter key="indices_attribute" value="id"/>
-            <parameter key="p:_order_of_the_autoregressive_model" value="2"/>
+            <parameter key="p:_order_of_the_autoregressive_model" value="1"/>
             <parameter key="d:_degree_of_differencing" value="0"/>
             <parameter key="q:_order_of_the_moving-average_model" value="4"/>
             <parameter key="estimate_constant" value="true"/>
@@ -508,7 +501,7 @@
             <parameter key="inner_iterations" value="2"/>
             <parameter key="robust_iterations" value="0"/>
             <parameter key="seasonal_smoothing_settings" value="default"/>
-            <parameter key="seasonal_width" value="37"/>
+            <parameter key="seasonal_width" value="24"/>
             <parameter key="seasonal_degree" value="1"/>
             <parameter key="seasonal_jump" value="4"/>
             <parameter key="trend_smoothing_settings" value="default"/>
@@ -553,7 +546,7 @@
             <parameter key="indices_attribute" value="id"/>
             <parameter key="add_phase_spectrum" value="false"/>
             <parameter key="use_padding" value="false"/>
-            <parameter key="calculate_frequency" value="false"/>
+            <parameter key="calculate_frequency" value="true"/>
             <parameter key="sample_rate" value="1.0"/>
           </operator>
           <operator activated="true" class="time_series:evaluation_function" compatibility="9.10.000" expanded="true" height="82" name="Partial autocorrelation" width="90" x="111" y="136">
