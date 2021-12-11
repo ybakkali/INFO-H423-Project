@@ -1,12 +1,14 @@
+import math
 from datetime import datetime
 
 
 class Transport:
 
-    def __init__(self, parentStation, lines, stopsName):
+    def __init__(self, parentStation=None, lines=None, stopsName=None, speedStop=None):
         self.parentStation = parentStation
         self.lines = lines
         self.stopsName = stopsName
+        self.speedStop = speedStop
 
     def getRealStop(self, stopID, lineID, variance=None):
         if variance is None:
@@ -103,3 +105,16 @@ class Transport:
     def getStringPos(self, pos):
         return self.getStationName(pos[1]) + " : " + str(pos[2]) + " m at " + \
                datetime.utcfromtimestamp(pos[0] / 1000).strftime("%H:%M:%S")
+
+    def getAverageSpeedStop(self, line, stop_1, stop_2):
+        index_1 = self.getIndexStop(stop_1, line)
+        index_2 = self.getIndexStop(stop_2, line)
+
+        if index_2 - index_1 <= 0:
+            return -math.inf
+
+        speeds = self.speedStop[line][index_1:index_2]
+
+        average = sum(speeds)/len(speeds)
+
+        return average

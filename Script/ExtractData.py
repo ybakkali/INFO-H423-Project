@@ -114,3 +114,23 @@ def getPositionsFromCSV(file_path):
                 positions[(line, variance)].append((time, last_stop, distance, terminus))
 
     return positions
+
+
+def getSpeed(file_path):
+    speed = {}
+    with open(file_path, "r") as file:
+        file.readline()
+        for line in file:
+            info = line.strip().split(",")
+
+            line = info[0]
+            variance = str(int(info[1])+1)
+            s = float(info[4]) if info[4] != "" else 0
+
+            if (line, variance) not in speed.keys():
+                speed[(line, variance)] = [s]
+
+            else:
+                speed[(line, variance)].append(s)
+
+    return speed

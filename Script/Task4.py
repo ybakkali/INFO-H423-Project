@@ -29,9 +29,9 @@ for point_index, point in geo_df.iterrows():
     for line_index, line in lines.iterrows():
         distance = point["geometry"].distance(line["geometry"])
         if distance <= 10.0:
-            res.append([point_index, point["TrackId"], point["time"],point["lon"], point["lat"], line["LIGNE"], line["VARIANTE"], distance])
+            res.append([point_index, point["TrackId"], point["time"], point["lon"], point["lat"], line["LIGNE"], line["VARIANTE"], distance])
 
-with open("../ahaha.csv", "w") as output_file:
+with open("../ahaha2.csv", "w") as output_file:
     output_file.write("Point_Index,TrackId,Time,Lon,Lat,Ligne,Variante,Distance\n")
     for d in res:
         output_file.write(",".join(str(elem) for elem in d) + "\n")
