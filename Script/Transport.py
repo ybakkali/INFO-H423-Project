@@ -115,6 +115,14 @@ class Transport:
 
         speeds = self.speedStop[line][index_1:index_2]
 
+        # TODO: VERIFY (normally not logic !!!)
+        #if len(speeds) == 0 :
+        #    speeds = self.speedStop[line][index_2:index_1]
+        #    if len(speeds) == 0 :
+        #        return -math.inf
+
+        #
+
         average = sum(speeds)/len(speeds)
 
         return average
