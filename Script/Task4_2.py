@@ -4,6 +4,7 @@ import io
 from fiona.io import ZipMemoryFile
 from shapely.geometry import Point
 import time
+from haversine import haversine, Unit
 
 from ExtractData import getLineInfo, getStopsName, getSpeed
 from Transport import Transport
@@ -66,20 +67,6 @@ def convertTime(time_str):
     return epoch
 
 
-def computeDistance(lon1, lat1, lon2, lat2):  # Copy Paste
-    from math import radians, cos, sin, asin, sqrt
-    # convert decimal degrees to radians
-    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
-
-    # haversine formula
-    dlon = lon2 - lon1
-    dlat = lat2 - lat1
-    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-    c = 2 * asin(sqrt(a))
-    r = 6371  # Radius of earth in kilometers. Use 3956 for miles. Determines return value units.
-    return c * r
-
-
 '''def computeSpeedFile(file_path):
     dico_speed = {}
     with open(file_path) as f:
@@ -99,6 +86,7 @@ def computeDistance(lon1, lat1, lon2, lat2):  # Copy Paste
     return dico_speed
 '''
 
+
 def computeSpeed(points):  # (lat, lon, time)
     speeds = []
     time_conter = 0
@@ -110,16 +98,15 @@ def computeSpeed(points):  # (lat, lon, time)
         t2 = convertTime(next_point[2])
         delta_t = (t2 - t1) 
         time_conter += delta_t
-        lon1, lat1 = float(point[1]), float(point[0])
-        lon2, lat2 = float(next_point[1]), float(next_point[0])
-        distance = computeDistance(lon1, lat1, lon2, lat2)
+        point1 = (float(point[0]), float(point[1]))
+        point2 = (float(next_point[0]), float(next_point[1]))
+        distance = haversine(point1, point2, unit=Unit.KILOMETERS)
         distance_sum += distance
-        if time_conter >= 30 :
+        if time_conter >= 30:
             speed = (distance_sum/time_conter)*3600 #km/s --> km/h
             speeds.append(speed)
             time_conter = 0
             distance_sum = 0
-
 
     return speeds
 
@@ -157,7 +144,6 @@ def getStops(file_path, line):
     df["ID"] = stops
     geo_df = gpd.GeoDataFrame(df, geometry=points).set_crs(epsg=31370)
     return geo_df
-
 
 
 def main():
@@ -209,7 +195,6 @@ def main():
                 stop_2 = getClosestStop(stops, geo_df.iloc[-1]).strip('"') #  [1:-1]
                 average_line_speed = transport.getAverageSpeedStop(line, stop_1, stop_2)
 
-
                 print("line", line, "\nstops: ", stop_1, " /// ", stop_2)
                 print("average_speed", average_speed)
                 print("average_line_speed", average_line_speed)
@@ -230,7 +215,6 @@ def main():
         string_transport_mode = "Other" if track_transport_mode is None else track_transport_mode
         print("Track", trackId, "transport mode", string_transport_mode)
         print("*"*50, "\n")
-
 
 
 if __name__ == '__main__':

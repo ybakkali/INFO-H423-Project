@@ -33,6 +33,8 @@ def getAllVehicles(allPositions, transport):
                 else:
                     a += 1
 
+            t.sort(key=lambda p: transport.getDistanceStop(p[1], line) + p[2])
+
             while len(t) > 0:
 
                 index = transport.getIndexClosestVehicle(t[0], vehicles, line)
