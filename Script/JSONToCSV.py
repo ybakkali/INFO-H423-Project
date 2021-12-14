@@ -1,7 +1,7 @@
 import json
 import os
 
-from Script.ExtractData import getParentStation, getLineInfo, getStopsName
+from Script.ExtractData import getStopsName, getLineInfo
 from Script.Transport import Transport
 
 
@@ -67,10 +67,9 @@ def createCSV(directory_in, directory_out, transport):
 
 
 def main():
-    parentStation = getParentStation("../Data/gtfs23Sept/stops.txt")
     lines = getLineInfo("../Data/Stops Distance.csv")
     stopsName = getStopsName("../Data/gtfs23Sept/stops.txt")
-    transport = Transport(parentStation, lines, stopsName)
+    transport = Transport(lines, stopsName)
     # createCSVs("../Data/JSON", "../Data/CSV", transport)
     createCSV("../Data/JSON", "../Data/CSV", transport)
 

@@ -33,11 +33,10 @@ def yoyo(positions, transport):
 
 
 def main():
-    parentStation = getParentStation("../Data/gtfs23Sept/stops.txt")
     lines = getLineInfo("../Data/Stops Distance.csv")
     stopsName = getStopsName("../Data/gtfs23Sept/stops.txt")
 
-    transport = Transport(parentStation, lines, stopsName)
+    transport = Transport(lines, stopsName)
 
     # createCSVs("../Data") # Path to data
     # positions = getPositionsFromCSV("../Data/CSV/vehiclePosition01.csv")
