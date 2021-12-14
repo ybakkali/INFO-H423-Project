@@ -1,3 +1,6 @@
+from Script.ExtractData import getRawPositions, getStopsName
+
+
 def analyseSpeed(positions, transport):
 
     allVehicles = getAllVehicles(positions, transport)
@@ -65,65 +68,31 @@ def groupSortByTime(positions):
     return times
 
 
-def analyseStopsID(stopsID, positions):
-    stopsID = [s for s in stopsID if len(s) > 2]
+def analyseStopsID():
+    realStops = set()
+    posStops = set()
 
-    # print(stopsID)
-    """
-    a = {}
-    for s in stopsID:
-        if len(s) not in a.keys():
-            a[len(s)] = 1
-        else:
-            a[len(s)] += 1
+    for stop in getStopsName("../Data/gtfs23Sept/stops.txt").keys():
+        realStops.add(stop)
 
-    print("Length of stopsID :", a)
-    """
+    for i in range(1, 14):
+        for position in getRawPositions("../Data/JSON/vehiclePosition{:02d}.json".format(i)):
+            posStops.add(position[2])
+            posStops.add(position[3])
 
-    posStopID = set()
-    for line in positions.keys():
-        for pos in positions[line]:
-            posStopID.add(pos[1])
+    n = len(posStops)
+    print(n, "different stops")
 
-    # print(posStopID)
-    """
-    b = {}
-    for s in posStopID:
-        if len(s) not in b.keys():
-            b[len(s)] = 1
-        else:
-            b[len(s)] += 1
-    print("Length of stopsID :", b)
-    """
+    posStops = [s for s in posStops if s not in realStops]
+    print("Not found : (" + str(len(posStops)) + ")", posStops)
 
-    # print("Intersection :", stopsID.intersection(posStopID))
-    # print("Difference :", stopsID.difference(posStopID))
+    posStops = [s.zfill(4) for s in posStops if s.zfill(4) not in realStops]
+    print("Not found : (" + str(len(posStops)) + ")", posStops)
 
-    print(len(posStopID), "different stops")
+    digit = ["".join([a for a in stop if a.isdigit()]) for stop in realStops]
+    posStops = [s.zfill(4) for s in posStops if s.zfill(4) not in digit]
 
-    not_found = [s for s in posStopID if s not in stopsID]
-    print("Not found : (" + str(len(not_found)) + ")", not_found)
-
-    not_found = [s.zfill(4) for s in not_found if s.zfill(4) not in stopsID]
-    print("Not found : (" + str(len(not_found)) + ")", not_found)
-
-    temp = []
-    for s in not_found:
-        found = False
-        last_found = ""
-        for t in stopsID:
-            #print(s, "|", t, "".join([a for a in t if a.isdigit()]))
-            if s == "".join([a for a in t if a.isdigit()]):
-                #if found:
-                #    print("Strange", last_found, "|", t)
-                found = True
-                last_found = t
-
-        if not found:
-            temp.append(s)
-
-    not_found = temp
-    print("Not found : (" + str(len(not_found)) + ")", not_found)
+    print("Not found : (" + str(len(posStops)) + ")", posStops)
 
 
 def getAllVehiclesTest(positions, transport):
@@ -182,3 +151,7 @@ def createVehiclesID(allVehicles, file_path):
                     vehicleID = str(i)
 
                     file.write(",".join([time, line, terminus, variance, distance, last_stop, vehicleID]) + "\n")
+
+
+if __name__ == '__main__':
+    analyseStopsID()
