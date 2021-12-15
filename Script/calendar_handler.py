@@ -1,73 +1,3 @@
-"""
-n = "Stop-times+lines split"
-
-input_file = open("Stop-times+lines modified.csv", "r")
-
-line_number = -1
-header = input_file.readline()
-
-for line in input_file:
-    if line.strip().split(";")[0].strip('"') != line_number:
-        line_number = line.strip().split(";")[0].strip('"')
-        output_file = open("{}/Line {}.csv".format(n,line_number), "w")
-        output_file.write(header)
-
-    output_file.write(line)
--------
-
-n = "Stop-times+lines split"
-
-input_file = open("Stop-times+lines.csv", "r")
-output_file = open("Stop-times+lines modified.csv", "w")
-
-header = input_file.readline()
-output_file.write(header)
-
-
-for line in input_file:
-
-    line = line.strip().split(";")
-
-    time = line[3].strip('"').split(":")
-    time_ = line[4].strip('"').split(":")
-
-    time[0] = "{:02d}".format(int(time[0]) % 24)
-    time_[0] = "{:02d}".format(int(time_[0]) % 24)
-
-    line[3] = '"' + ":".join(time) + '"'
-    line[4] = '"' + ":".join(time_) + '"'
-
-    line = ";".join(line)
-    output_file.write(line + "\n")
-
-----
-import time
-
-def convert(filename, i):
-
-    input_file = open("vehiclePosition split" + filename, "r")
-
-    line_number = -1
-    header = input_file.readline()
-
-    for line in input_file:
-
-        line = line.strip().split(";")
-        line[4] = time.strftime('%H:%M:%S', time.localtime(int(line[4])))
-
-        if line[0] != line_number:
-            line_number = line[0]
-            output_file = open("vehiclePosition split/{:02d}/Line {}.csv".format(i,line_number), "w")
-            output_file.write(header)
-
-        line = ";".join(line)
-        line += '\n'
-        output_file.write(line)
-
-for i in range(1, 14):
-    convert("/vehiclePosition{:02d}-reord.csv".format(i), i)
-
-"""
 import datetime
 
 dico_excep_1 = {}
@@ -84,43 +14,41 @@ def before_after_day(s):
 
 
 def read_cal_dates(file_path):
-    global dico_excep_1
-    f = open(file_path, "r")
+    with open(file_path, "r") as file:
+        for line in file:
+            line = line.strip().split(",")
 
-    for line in f:
-        line = line.strip().split(",")
+            if line[2] == "1":
+                dico_excep_1[line[0]] = line[1]
+            elif line[2] == "2":
+                add_exception_2(line)
 
-        if line[2] == "1":
-            dico_excep_1[line[0]] = line[1]
-        if line[2] == "2":
 
-            if line[0] not in dico_excep_2:
-                dico_excep_2[line[0]] = [[line[1]]]
-            else:
-                lst = dico_excep_2[line[0]]
-                s = line[1]
-                d = datetime.date(int(s[0:4]), int(s[4:6]), int(s[6:8]))
-                found = False
-                for i in range(len(lst)):
-                    for k in lst[i]:
-                        g = datetime.date(int(k[0:4]), int(k[4:6]), int(k[6:8]))
-                        if abs((g - d).days) == 1:
-                            dico_excep_2[line[0]][i].append(s)
-                            found = True
-                            break
-                    if found:
-                        break
-                if not found:
-                    dico_excep_2[line[0]] += [[s]]
-
-    f.close()
+def add_exception_2(line):
+    if line[0] not in dico_excep_2:
+        dico_excep_2[line[0]] = [[line[1]]]
+    else:
+        lst = dico_excep_2[line[0]]
+        s = line[1]
+        d = datetime.date(int(s[0:4]), int(s[4:6]), int(s[6:8]))
+        found = False
+        for i in range(len(lst)):
+            for k in lst[i]:
+                g = datetime.date(int(k[0:4]), int(k[4:6]), int(k[6:8]))
+                if abs((g - d).days) == 1:
+                    dico_excep_2[line[0]][i].append(s)
+                    found = True
+                    break
+            if found:
+                break
+        if not found:
+            dico_excep_2[line[0]] += [[s]]
 
 
 def insert_date(s):
-    global dico_excep_1
     lst = ["0" for _ in range(7)]
     date = datetime.date(int(s[0:4]), int(s[4:6]), int(s[6:8]))
-    lst[date.weekday() - 1] = "1"
+    lst[date.weekday()] = "1"
     return "," + ",".join(lst) + "," + s + "," + s
 
 
@@ -133,16 +61,20 @@ def read_cal(file_path, out_path):
         line = line.strip().split(",")
 
         if line[0] in dico_excep_1:
-            if t != line[0] + insert_date(dico_excep_1[line[0]]):
+            excep_date = dico_excep_1[line[0]]
+            """
+            if t != line[0] + insert_date(excep_date):
                 start = datetime.date(int(line[8][0:4]), int(line[8][4:6]), int(line[8][6:8]))
                 end = datetime.date(int(line[9][0:4]), int(line[9][4:6]), int(line[9][6:8]))
-                s = dico_excep_1[line[0]]
-                new_date = datetime.date(int(s[0:4]), int(s[4:6]), int(s[6:8]))
+                new_date = datetime.date(int(excep_date[0:4]), int(excep_date[4:6]), int(excep_date[6:8]))
                 if not (start <= new_date <= end):
-                    w.write(line[0] + insert_date(dico_excep_1[line[0]]) + "\n")
+                    w.write(line[0] + insert_date(excep_date) + "\n")
+            """
+            w.write(",".join(line) + "\n")
+            w.write(line[0] + insert_date(excep_date) + "\n")
 
-        if line[0] in dico_excep_2:
-            w.write(remove_date(line))
+            if line[0] in dico_excep_2:
+                w.write(remove_date(line))
         else:
             w.write(",".join(line) + "\n")
 
@@ -151,8 +83,8 @@ def read_cal(file_path, out_path):
 
 
 def remove_date(line):
-    dates = dico_excep_2[line[0]]
 
+    dates = dico_excep_2[line[0]]
     lines = ""
     start = line[8]
     end = line[9]
@@ -162,14 +94,18 @@ def remove_date(line):
         before = before_after_day(lst[0])[0]
         after = before_after_day(lst[-1])[1]
 
-        str = ",".join(line[:8])
-        if start == before:
+        prefix = ",".join(line[:8])
+
+        if before < start:
+            start = after
+        elif start == before:
+            lines += prefix + "," + start + "," + before + "\n"
             start = after
         elif end == after:
-            lines += str + "," + start + "," + before + "\n"
+            lines += prefix + "," + after + "," + end + "\n"
             break
         else:
-            lines += str + "," + start + "," + before + "\n"
+            lines += prefix + "," + start + "," + before + "\n"
             start = after
 
     return lines
