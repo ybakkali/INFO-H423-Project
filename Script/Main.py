@@ -1,5 +1,5 @@
 from Script.Analyze import analyseSpeed, createVehiclesID, getAllVehicles
-from Script.ExtractData import getParentStation, getLineInfo, getStopsName, getPositionsFromCSV
+from Script.ExtractData import getLineInfo, getStopsName, getPositionsFromCSV
 
 # data["data"][250]["Responses"][0]["lines"][0]["vehiclePositions"]
 from Script.Transport import Transport
@@ -33,11 +33,10 @@ def yoyo(positions, transport):
 
 
 def main():
-    parentStation = getParentStation("../Data/gtfs23Sept/stops.txt")
     lines = getLineInfo("../Data/Stops Distance.csv")
     stopsName = getStopsName("../Data/gtfs23Sept/stops.txt")
 
-    transport = Transport(parentStation, lines, stopsName)
+    transport = Transport(lines, stopsName)
 
     # createCSVs("../Data") # Path to data
     # positions = getPositionsFromCSV("../Data/CSV/vehiclePosition01.csv")

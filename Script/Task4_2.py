@@ -4,9 +4,10 @@ import io
 from fiona.io import ZipMemoryFile
 from shapely.geometry import Point
 import time
+from haversine import haversine, Unit
 
-from Script.ExtractData import getLineInfo, getStopsName, getSpeed
-from Script.Transport import Transport
+from ExtractData import getLineInfo, getStopsName, getSpeed
+from Transport import Transport
 
 
 def getLines(file='../Data/shapefiles23Sept.zip'):
@@ -66,21 +67,7 @@ def convertTime(time_str):
     return epoch
 
 
-def computeDistance(lon1, lat1, lon2, lat2):  # Copy Paste
-    from math import radians, cos, sin, asin, sqrt
-    # convert decimal degrees to radians
-    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
-
-    # haversine formula
-    dlon = lon2 - lon1
-    dlat = lat2 - lat1
-    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-    c = 2 * asin(sqrt(a))
-    r = 6371  # Radius of earth in kilometers. Use 3956 for miles. Determines return value units.
-    return c * r
-
-
-def computeSpeedFile(file_path):
+'''def computeSpeedFile(file_path):
     dico_speed = {}
     with open(file_path) as f:
         f.readline()
@@ -97,21 +84,29 @@ def computeSpeedFile(file_path):
             speed = distance/delta_t
             dico_speed[(i, i+1)] = speed * 3600  # 3.6 and 1000 for milisec of epoch
     return dico_speed
+'''
 
 
 def computeSpeed(points):  # (lat, lon, time)
     speeds = []
+    time_conter = 0
+    distance_sum = 0
     for i in range(len(points)-1):
         point = points[i]
         next_point = points[i+1]
         t1 = convertTime(point[2])
         t2 = convertTime(next_point[2])
-        delta_t = t2 - t1
-        lon1, lat1 = float(point[1]), float(point[0])
-        lon2, lat2 = float(next_point[1]), float(next_point[0])
-        distance = computeDistance(lon1, lat1, lon2, lat2)
-        speed = distance/delta_t
-        speeds.append(speed * 3600)  # 3.6 and 1000 for milisec of epoch
+        delta_t = (t2 - t1) 
+        time_conter += delta_t
+        point1 = (float(point[0]), float(point[1]))
+        point2 = (float(next_point[0]), float(next_point[1]))
+        distance = haversine(point1, point2, unit=Unit.KILOMETERS)
+        distance_sum += distance
+        if time_conter >= 30:
+            speed = (distance_sum/time_conter)*3600 #km/s --> km/h
+            speeds.append(speed)
+            time_conter = 0
+            distance_sum = 0
 
     return speeds
 
@@ -166,21 +161,32 @@ def main():
         geo_df = gpd.GeoDataFrame(points, geometry=geometry).set_crs(epsg=4326).to_crs(epsg=31370)
         count = countPointsDistanceLines(geo_df, lines)
 
-        p = 0.90 * len(points)
+        p = 0.75 * len(points)
         candidate_lines = []
         for k in count:
             if count[k] >= p:
                 candidate_lines.append(k)
 
+
+        print("len: ", len(points))
+        print("dico: ", count)
+        print("candida: ", candidate_lines)
+
         if len(candidate_lines) == 0:
             track_transport_mode = None
 
+
         else:
+            #print("///////////"*12)
+            #print(points)
+            #print("///////////"*12)
             speeds = computeSpeed(points)
 
             average_speed = sum(speeds)/len(speeds)
-
-            for candidate_line in candidate_lines:
+            
+            i = 0
+            while i < len(candidate_lines):
+                candidate_line = candidate_lines[i]
                 line, _ = extractInfo(candidate_line)
 
                 stops = getStops("../Data/Stops Distance.csv", line)
@@ -189,21 +195,26 @@ def main():
                 stop_2 = getClosestStop(stops, geo_df.iloc[-1]).strip('"') #  [1:-1]
                 average_line_speed = transport.getAverageSpeedStop(line, stop_1, stop_2)
 
-                print("line", line)
+                print("line", line, "\nstops: ", stop_1, " /// ", stop_2)
                 print("average_speed", average_speed)
                 print("average_line_speed", average_line_speed)
 
                 if abs(average_line_speed - average_speed) > 20:
-                    candidate_lines.pop(candidate_lines.index(candidate_line))
-
+                    candidate_lines.pop(i)
+                else :
+                    i += 1
+            
             if len(candidate_lines) == 0:
                 track_transport_mode = None
 
             else:
-                track_transport_mode = extractInfo(candidate_lines[0])[1]
+                lst = [(candidate_line, count[candidate_line]) for candidate_line in candidate_lines]
+                lst.sort(key=lambda x: x[1])
+                track_transport_mode = extractInfo(lst[-1][0])[1] #TODO: celui de maximum
 
         string_transport_mode = "Other" if track_transport_mode is None else track_transport_mode
         print("Track", trackId, "transport mode", string_transport_mode)
+        print("*"*50, "\n")
 
 
 if __name__ == '__main__':

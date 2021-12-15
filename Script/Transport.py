@@ -4,8 +4,7 @@ from datetime import datetime
 
 class Transport:
 
-    def __init__(self, parentStation=None, lines=None, stopsName=None, speedStop=None):
-        self.parentStation = parentStation
+    def __init__(self, lines=None, stopsName=None, speedStop=None):
         self.lines = lines
         self.stopsName = stopsName
         self.speedStop = speedStop
@@ -83,12 +82,18 @@ class Transport:
         return self.getStops(line).index(stop)
 
     def getVariance(self, line, direction):
-        if direction in self.getStops((line, "1")):
-            return "1"
-        elif direction in self.getStops((line, "2")):
-            return "2"
-        else:
-            raise
+        stops1 = self.getStops((line, "1"))[::-1]
+        stops2 = self.getStops((line, "2"))[::-1]
+
+        for i in range(max(len(stops1), len(stops2))):
+            stop1 = stops1[i] if len(stops1) > i else None
+            stop2 = stops2[i] if len(stops2) > i else None
+
+            if direction == stop1:
+                return "1"
+            elif direction == stop2:
+                return "2"
+        raise
 
     def isDistanceValid(self, line, pointID, distanceFromPoint):
         i = self.getIndexStop(pointID, line)
@@ -114,7 +119,6 @@ class Transport:
             return -math.inf
 
         speeds = self.speedStop[line][index_1:index_2]
-
         average = sum(speeds)/len(speeds)
 
         return average

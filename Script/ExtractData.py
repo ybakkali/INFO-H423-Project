@@ -1,19 +1,6 @@
 import json
 
 
-def getParentStation(file_path):
-    res = {}
-    with open(file_path, "r") as input_file:
-        input_file.readline()
-
-        for line in input_file:
-            line = line.strip()
-            info = line.split(",")
-            if info[9] != "":
-                res[info[0]] = info[9]
-    return res
-
-
 def getLineInfo(file_path):  # lines = {(num_line, var) : [(succession, stop_id, dist), ...], ...}
     temp_lines = {}
     with open(file_path, "r") as input_file:
@@ -87,6 +74,29 @@ def getPositions(file_path, transport):
 
     # print(i)
     # print(j)
+    input_file.close()
+
+    return positions
+
+
+def getRawPositions(file_path):
+    input_file = open(file_path, "r")
+    data = json.load(input_file)
+    positions = []
+    for time in data["data"]:
+        if time is not None:
+            for response in time["Responses"]:
+                if response is not None:
+                    for line in response["lines"]:
+                        if line is not None:
+                            for position in line["vehiclePositions"]:
+                                if position is not None:
+                                    t = time["time"]
+                                    l = line["lineId"]
+                                    direction = position["directionId"]
+                                    last = position["pointId"]
+                                    distance = position["distanceFromPoint"]
+                                    positions.append([t, l, direction, last, distance])
     input_file.close()
 
     return positions
