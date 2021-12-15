@@ -1,5 +1,5 @@
 from Script.Analyze import analyseSpeed, createVehiclesID, getAllVehicles
-from Script.ExtractData import getParentStation, getLineInfo, getStopsName, getPositionsFromCSV
+from Script.ExtractData import getLineInfo, getStopsName, getPositionsFromCSV
 
 # data["data"][250]["Responses"][0]["lines"][0]["vehiclePositions"]
 from Script.Transport import Transport
