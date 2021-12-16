@@ -45,13 +45,62 @@
         </list>
         <parameter key="read_not_matching_values_as_missings" value="false"/>
       </operator>
-      <operator activated="true" class="generate_attributes" compatibility="9.10.001" expanded="true" height="82" name="Generate Attributes" width="90" x="246" y="238">
+      <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Read CSV (2)" width="90" x="112" y="493">
+        <parameter key="csv_file" value="D:\PycharmProjects\Data\LinesInformation.csv"/>
+        <parameter key="column_separators" value=","/>
+        <parameter key="trim_lines" value="false"/>
+        <parameter key="use_quotes" value="true"/>
+        <parameter key="quotes_character" value="&quot;"/>
+        <parameter key="escape_character" value="\"/>
+        <parameter key="skip_comments" value="true"/>
+        <parameter key="comment_characters" value="#"/>
+        <parameter key="starting_row" value="1"/>
+        <parameter key="parse_numbers" value="true"/>
+        <parameter key="decimal_character" value="."/>
+        <parameter key="grouped_digits" value="false"/>
+        <parameter key="grouping_character" value=","/>
+        <parameter key="infinity_representation" value=""/>
+        <parameter key="date_format" value=""/>
+        <parameter key="first_row_as_names" value="true"/>
+        <list key="annotations"/>
+        <parameter key="time_zone" value="SYSTEM"/>
+        <parameter key="locale" value="English (United States)"/>
+        <parameter key="encoding" value="windows-1252"/>
+        <parameter key="read_all_values_as_polynominal" value="false"/>
+        <list key="data_set_meta_data_information">
+          <parameter key="0" value="Code_Ligne.false.polynominal.attribute"/>
+          <parameter key="1" value="Variante.false.integer.attribute"/>
+          <parameter key="2" value="succession.false.integer.attribute"/>
+          <parameter key="3" value="stop_id.false.polynominal.attribute"/>
+          <parameter key="4" value="descr_fr.false.polynominal.attribute"/>
+          <parameter key="5" value="descr_nl.false.polynominal.attribute"/>
+          <parameter key="6" value="alpha_fr.false.polynominal.attribute"/>
+          <parameter key="7" value="alpha_nl.false.polynominal.attribute"/>
+          <parameter key="8" value="coord_x.false.real.attribute"/>
+          <parameter key="9" value="coord_y.false.real.attribute"/>
+          <parameter key="10" value="mode.true.polynominal.attribute"/>
+          <parameter key="11" value="numero_lig.true.integer.attribute"/>
+          <parameter key="12" value="terminus.false.polynominal.attribute"/>
+          <parameter key="13" value="Distance.false.real.attribute"/>
+        </list>
+        <parameter key="read_not_matching_values_as_missings" value="false"/>
+      </operator>
+      <operator activated="true" class="concurrency:join" compatibility="9.10.001" expanded="true" height="82" name="Join" width="90" x="246" y="238">
+        <parameter key="remove_double_attributes" value="true"/>
+        <parameter key="join_type" value="left"/>
+        <parameter key="use_id_attribute_as_key" value="false"/>
+        <list key="key_attributes">
+          <parameter key="Line" value="numero_lig"/>
+        </list>
+        <parameter key="keep_both_join_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="generate_attributes" compatibility="9.10.001" expanded="true" height="82" name="Generate Attributes" width="90" x="380" y="238">
         <list key="function_descriptions">
           <parameter key="DayID" value="date_str_custom(date_parse_custom(Day, &quot;E&quot;),&quot;u&quot;)"/>
         </list>
         <parameter key="keep_all" value="true"/>
       </operator>
-      <operator activated="true" class="multiply" compatibility="9.10.001" expanded="true" height="103" name="Multiply" width="90" x="380" y="238"/>
+      <operator activated="true" class="multiply" compatibility="9.10.001" expanded="true" height="103" name="Multiply" width="90" x="514" y="238"/>
       <operator activated="true" class="aggregate" compatibility="9.10.001" expanded="true" height="82" name="Aggregate" width="90" x="715" y="187">
         <parameter key="use_default_aggregation" value="false"/>
         <parameter key="attribute_filter_type" value="all"/>
@@ -70,7 +119,7 @@
         <list key="aggregation_attributes">
           <parameter key="Speed Average" value="average"/>
         </list>
-        <parameter key="group_by_attributes" value="Day|DayID"/>
+        <parameter key="group_by_attributes" value="Day|DayID|mode"/>
         <parameter key="count_all_combinations" value="false"/>
         <parameter key="only_distinct" value="false"/>
         <parameter key="ignore_missings" value="true"/>
@@ -112,7 +161,7 @@
         <list key="aggregation_attributes">
           <parameter key="Speed Average" value="average"/>
         </list>
-        <parameter key="group_by_attributes" value="Day|Hour|DayID"/>
+        <parameter key="group_by_attributes" value="Day|DayID|Hour|mode"/>
         <parameter key="count_all_combinations" value="false"/>
         <parameter key="only_distinct" value="false"/>
         <parameter key="ignore_missings" value="true"/>
@@ -169,12 +218,14 @@
         <list key="aggregation_attributes">
           <parameter key="average(Speed Average)" value="average"/>
         </list>
-        <parameter key="group_by_attributes" value="Hour"/>
+        <parameter key="group_by_attributes" value="Hour|mode"/>
         <parameter key="count_all_combinations" value="false"/>
         <parameter key="only_distinct" value="false"/>
         <parameter key="ignore_missings" value="true"/>
       </operator>
-      <connect from_op="Read CSV" from_port="output" to_op="Generate Attributes" to_port="example set input"/>
+      <connect from_op="Read CSV" from_port="output" to_op="Join" to_port="left"/>
+      <connect from_op="Read CSV (2)" from_port="output" to_op="Join" to_port="right"/>
+      <connect from_op="Join" from_port="join" to_op="Generate Attributes" to_port="example set input"/>
       <connect from_op="Generate Attributes" from_port="example set output" to_op="Multiply" to_port="input"/>
       <connect from_op="Multiply" from_port="output 1" to_op="Aggregate" to_port="example set input"/>
       <connect from_op="Multiply" from_port="output 2" to_op="Aggregate (2)" to_port="example set input"/>
