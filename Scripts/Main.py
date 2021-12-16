@@ -1,6 +1,6 @@
-from Script.Analyze import createVehiclesID, getAllVehicles
-from Script.ExtractData import getLineInfo, getStopsName, getPositionsFromCSV
-from Script.Transport import Transport
+from Scripts.Analyze import createVehiclesID, getAllVehicles
+from Scripts.ExtractData import getLineInfo, getStopsName, getPositionsFromCSV
+from Scripts.Transport import Transport
 
 """
 def yoyo(positions, transport):
@@ -31,7 +31,7 @@ def yoyo(positions, transport):
 
 
 def main():
-    lines = getLineInfo("../Data/Stops Distance.csv")
+    lines = getLineInfo("../Data/LinesInformation.csv")
     stopsName = getStopsName("../Data/gtfs23Sept/stops.txt")
 
     transport = Transport(lines, stopsName)

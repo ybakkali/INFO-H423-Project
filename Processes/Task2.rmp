@@ -15,7 +15,7 @@
       <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Vehicles Position" width="90" x="45" y="34">
         <process expanded="true">
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="VehiclePositionID" width="90" x="45" y="34">
-            <parameter key="csv_file" value="Data\CSV\vehiclePositionID.csv"/>
+            <parameter key="csv_file" value="../Data/CSV/vehiclePositionID.csv"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -142,7 +142,7 @@
       <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Calendar 3 Sept" width="90" x="45" y="136">
         <process expanded="true">
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Calendar 3 Sept (2)" width="90" x="45" y="34">
-            <parameter key="csv_file" value="Data/gtfs3Sept/new_calendar.txt"/>
+            <parameter key="csv_file" value="../Data/gtfs3Sept/new_calendar.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -178,7 +178,7 @@
             <parameter key="read_not_matching_values_as_missings" value="false"/>
           </operator>
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Trips 3 Sept (2)" width="90" x="45" y="136">
-            <parameter key="csv_file" value="Data/gtfs3Sept/trips.txt"/>
+            <parameter key="csv_file" value="../Data/gtfs3Sept/trips.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -211,7 +211,7 @@
             <parameter key="read_not_matching_values_as_missings" value="false"/>
           </operator>
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Routes 3 Sept (2)" width="90" x="45" y="238">
-            <parameter key="csv_file" value="Data/gtfs3Sept/routes.txt"/>
+            <parameter key="csv_file" value="../Data/gtfs3Sept/routes.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -306,7 +306,7 @@
       <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Stop times 3 Sept" width="90" x="45" y="340">
         <process expanded="true">
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Stop Times 3 Sept" width="90" x="45" y="34">
-            <parameter key="csv_file" value="Data/gtfs3Sept/stop_times.txt"/>
+            <parameter key="csv_file" value="../Data/gtfs3Sept/stop_times.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -339,7 +339,7 @@
             <parameter key="read_not_matching_values_as_missings" value="false"/>
           </operator>
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Trips 3 Sept" width="90" x="45" y="136">
-            <parameter key="csv_file" value="Data/gtfs3Sept/trips.txt"/>
+            <parameter key="csv_file" value="../Data/gtfs3Sept/trips.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -372,7 +372,7 @@
             <parameter key="read_not_matching_values_as_missings" value="false"/>
           </operator>
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Routes 3 Sept" width="90" x="45" y="238">
-            <parameter key="csv_file" value="Data/gtfs3Sept/routes.txt"/>
+            <parameter key="csv_file" value="../Data/gtfs3Sept/routes.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -451,7 +451,7 @@
       <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Stop times 23 Sept" width="90" x="45" y="442">
         <process expanded="true">
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Routes 23 Sept" width="90" x="112" y="238">
-            <parameter key="csv_file" value="Data/gtfs23Sept/routes.txt"/>
+            <parameter key="csv_file" value="../Data/gtfs23Sept/routes.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -485,7 +485,7 @@
             <parameter key="read_not_matching_values_as_missings" value="false"/>
           </operator>
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Trips 23 Sept" width="90" x="112" y="136">
-            <parameter key="csv_file" value="Data/gtfs23Sept/trips.txt"/>
+            <parameter key="csv_file" value="../Data/gtfs23Sept/trips.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -527,7 +527,7 @@
             <parameter key="keep_both_join_attributes" value="false"/>
           </operator>
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Stop Times 23 Sept" width="90" x="112" y="34">
-            <parameter key="csv_file" value="Data/gtfs23Sept/stop_times.txt"/>
+            <parameter key="csv_file" value="../Data/gtfs23Sept/stop_times.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -596,7 +596,7 @@
       <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Calendar 23 Sept" width="90" x="45" y="238">
         <process expanded="true">
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Routes 23 Sept (2)" width="90" x="45" y="238">
-            <parameter key="csv_file" value="Data/gtfs23Sept/routes.txt"/>
+            <parameter key="csv_file" value="../Data/gtfs23Sept/routes.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -630,7 +630,7 @@
             <parameter key="read_not_matching_values_as_missings" value="false"/>
           </operator>
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Trips 23 Sept (2)" width="90" x="45" y="136">
-            <parameter key="csv_file" value="Data/gtfs23Sept/trips.txt"/>
+            <parameter key="csv_file" value="../Data/gtfs23Sept/trips.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -701,7 +701,7 @@
             <parameter key="treat_missing_values_as_duplicates" value="false"/>
           </operator>
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Calendar 23 Sept (2)" width="90" x="45" y="34">
-            <parameter key="csv_file" value="Data/gtfs23Sept/new_calendar.txt"/>
+            <parameter key="csv_file" value="../Data/gtfs23Sept/new_calendar.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>

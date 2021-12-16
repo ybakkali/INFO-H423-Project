@@ -15,7 +15,7 @@
       <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Stops information" width="90" x="447" y="391">
         <process expanded="true">
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Stops Infomation" width="90" x="45" y="34">
-            <parameter key="csv_file" value="Data/gtfs23Sept/stops.txt"/>
+            <parameter key="csv_file" value="../Data/gtfs23Sept/stops.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -74,7 +74,7 @@
       <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Vehicles Positions" width="90" x="447" y="34">
         <process expanded="true">
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Positions" width="90" x="45" y="34">
-            <parameter key="csv_file" value="Data/CSV/vehiclePositionID.csv"/>
+            <parameter key="csv_file" value="../Data/CSV/vehiclePositionID.csv"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -135,7 +135,7 @@
       <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Lines information" width="90" x="246" y="187">
         <process expanded="true">
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Lines Information" width="90" x="45" y="34">
-            <parameter key="csv_file" value="Data/Stops Distance.csv"/>
+            <parameter key="csv_file" value="../Data/LinesInformation.csv"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -536,7 +536,7 @@
             <parameter key="sort_direction" value="ascending"/>
           </operator>
           <operator activated="true" class="write_csv" compatibility="9.10.001" expanded="true" height="82" name="Write CSV (3)" width="90" x="782" y="136">
-            <parameter key="csv_file" value="Data/CSV/SpeedAnalyzeDayHour.csv"/>
+            <parameter key="csv_file" value="../Data/CSV/SpeedAnalyzeDayHour.csv"/>
             <parameter key="column_separator" value=","/>
             <parameter key="write_attribute_names" value="true"/>
             <parameter key="quote_nominal_values" value="false"/>

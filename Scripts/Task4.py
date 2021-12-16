@@ -133,7 +133,7 @@ def main():
     stopsName = getStopsName("../Data/gtfs23Sept/stops.txt")
     speedStop = getSpeed("../Data/CSV/SpeedStop.csv")
 
-    transport = Transport(lines=getLineInfo("../Data/Stops Distance.csv"), stopsName=stopsName, speedStop=speedStop)
+    transport = Transport(lines=getLineInfo("../Data/LinesInformation.csv"), stopsName=stopsName, speedStop=speedStop)
 
     for trackId, points in tracks.items():
         geometry = [Point((a[1], a[0])) for a in points]
@@ -163,7 +163,7 @@ def main():
                 candidate_line = candidate_lines[i]
                 line, _ = extractInfo(candidate_line)
 
-                stops = getStops("../Data/Stops Distance.csv", line)
+                stops = getStops("../Data/LinesInformation.csv", line)
 
                 stop_1 = getClosestStop(stops, geo_df.iloc[0]).strip('"')  # [1:-1]
                 stop_2 = getClosestStop(stops, geo_df.iloc[-1]).strip('"')  # [1:-1]

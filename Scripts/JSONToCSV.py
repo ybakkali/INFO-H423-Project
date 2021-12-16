@@ -1,8 +1,8 @@
 import json
 import os
 
-from Script.ExtractData import getStopsName, getLineInfo
-from Script.Transport import Transport
+from Scripts.ExtractData import getStopsName, getLineInfo
+from Scripts.Transport import Transport
 
 
 def jsonToCSV(input_file_path, output_file_path, transport, mode="w"):
@@ -67,7 +67,7 @@ def createCSV(directory_in, directory_out, transport):
 
 
 def main():
-    lines = getLineInfo("../Data/Stops Distance.csv")
+    lines = getLineInfo("../Data/LinesInformation.csv")
     stopsName = getStopsName("../Data/gtfs23Sept/stops.txt")
     transport = Transport(lines, stopsName)
     # createCSVs("../Data/JSON", "../Data/CSV", transport)

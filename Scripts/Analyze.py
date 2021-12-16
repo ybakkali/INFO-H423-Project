@@ -1,4 +1,4 @@
-from Script.ExtractData import getRawPositions, getStopsName
+from Scripts.ExtractData import getRawPositions, getStopsName
 
 
 def getAllVehicles(allPositions, transport):
