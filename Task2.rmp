@@ -15,7 +15,7 @@
       <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Vehicles Position" width="90" x="45" y="34">
         <process expanded="true">
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="VehiclePositionID" width="90" x="45" y="34">
-            <parameter key="csv_file" value="C:\Users\Yahya Bakkali\PycharmProjects\INFO-H423-Project\Data\CSV\vehiclePositionID.csv"/>
+            <parameter key="csv_file" value="Data\CSV\vehiclePositionID.csv"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -53,7 +53,7 @@
             <parameter key="invert_filter" value="false"/>
             <list key="filters_list">
               <parameter key="filters_entry_key" value="DistanceFromPoint.eq.0"/>
-              <parameter key="filters_entry_key" value="LineID.equals.7"/>
+              <parameter key="filters_entry_key" value="LineID.equals.5"/>
               <parameter key="filters_entry_key" value="Variance.eq.0"/>
             </list>
             <parameter key="filters_logic_and" value="true"/>
@@ -142,7 +142,7 @@
       <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Calendar 3 Sept" width="90" x="45" y="136">
         <process expanded="true">
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Calendar 3 Sept (2)" width="90" x="45" y="34">
-            <parameter key="csv_file" value="C:/Users/Yahya Bakkali/PycharmProjects/INFO-H423-Project/Data/gtfs3Sept/new_calendar.txt"/>
+            <parameter key="csv_file" value="Data/gtfs3Sept/new_calendar.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -178,7 +178,7 @@
             <parameter key="read_not_matching_values_as_missings" value="false"/>
           </operator>
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Trips 3 Sept (2)" width="90" x="45" y="136">
-            <parameter key="csv_file" value="C:/Users/Yahya Bakkali/PycharmProjects/INFO-H423-Project/Data/gtfs3Sept/trips.txt"/>
+            <parameter key="csv_file" value="Data/gtfs3Sept/trips.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -211,7 +211,7 @@
             <parameter key="read_not_matching_values_as_missings" value="false"/>
           </operator>
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Routes 3 Sept (2)" width="90" x="45" y="238">
-            <parameter key="csv_file" value="C:/Users/Yahya Bakkali/PycharmProjects/INFO-H423-Project/Data/gtfs3Sept/routes.txt"/>
+            <parameter key="csv_file" value="Data/gtfs3Sept/routes.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -306,7 +306,7 @@
       <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Stop times 3 Sept" width="90" x="45" y="340">
         <process expanded="true">
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Stop Times 3 Sept" width="90" x="45" y="34">
-            <parameter key="csv_file" value="C:/Users/Yahya Bakkali/PycharmProjects/INFO-H423-Project/Data/gtfs3Sept/stop_times.txt"/>
+            <parameter key="csv_file" value="Data/gtfs3Sept/stop_times.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -339,7 +339,7 @@
             <parameter key="read_not_matching_values_as_missings" value="false"/>
           </operator>
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Trips 3 Sept" width="90" x="45" y="136">
-            <parameter key="csv_file" value="C:/Users/Yahya Bakkali/PycharmProjects/INFO-H423-Project/Data/gtfs3Sept/trips.txt"/>
+            <parameter key="csv_file" value="Data/gtfs3Sept/trips.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -372,7 +372,7 @@
             <parameter key="read_not_matching_values_as_missings" value="false"/>
           </operator>
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Routes 3 Sept" width="90" x="45" y="238">
-            <parameter key="csv_file" value="C:/Users/Yahya Bakkali/PycharmProjects/INFO-H423-Project/Data/gtfs3Sept/routes.txt"/>
+            <parameter key="csv_file" value="Data/gtfs3Sept/routes.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -451,7 +451,7 @@
       <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Stop times 23 Sept" width="90" x="45" y="442">
         <process expanded="true">
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Routes 23 Sept" width="90" x="112" y="238">
-            <parameter key="csv_file" value="C:/Users/Yahya Bakkali/PycharmProjects/INFO-H423-Project/Data/gtfs23Sept/routes.txt"/>
+            <parameter key="csv_file" value="Data/gtfs23Sept/routes.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -485,7 +485,7 @@
             <parameter key="read_not_matching_values_as_missings" value="false"/>
           </operator>
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Trips 23 Sept" width="90" x="112" y="136">
-            <parameter key="csv_file" value="C:/Users/Yahya Bakkali/PycharmProjects/INFO-H423-Project/Data/gtfs23Sept/trips.txt"/>
+            <parameter key="csv_file" value="Data/gtfs23Sept/trips.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -527,7 +527,7 @@
             <parameter key="keep_both_join_attributes" value="false"/>
           </operator>
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Stop Times 23 Sept" width="90" x="112" y="34">
-            <parameter key="csv_file" value="C:/Users/Yahya Bakkali/PycharmProjects/INFO-H423-Project/Data/gtfs23Sept/stop_times.txt"/>
+            <parameter key="csv_file" value="Data/gtfs23Sept/stop_times.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -596,7 +596,7 @@
       <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Calendar 23 Sept" width="90" x="45" y="238">
         <process expanded="true">
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Routes 23 Sept (2)" width="90" x="45" y="238">
-            <parameter key="csv_file" value="C:/Users/Yahya Bakkali/PycharmProjects/INFO-H423-Project/Data/gtfs23Sept/routes.txt"/>
+            <parameter key="csv_file" value="Data/gtfs23Sept/routes.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -630,7 +630,7 @@
             <parameter key="read_not_matching_values_as_missings" value="false"/>
           </operator>
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Trips 23 Sept (2)" width="90" x="45" y="136">
-            <parameter key="csv_file" value="C:/Users/Yahya Bakkali/PycharmProjects/INFO-H423-Project/Data/gtfs23Sept/trips.txt"/>
+            <parameter key="csv_file" value="Data/gtfs23Sept/trips.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -701,7 +701,7 @@
             <parameter key="treat_missing_values_as_duplicates" value="false"/>
           </operator>
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Calendar 23 Sept (2)" width="90" x="45" y="34">
-            <parameter key="csv_file" value="C:/Users/Yahya Bakkali/PycharmProjects/INFO-H423-Project/Data/gtfs23Sept/new_calendar.txt"/>
+            <parameter key="csv_file" value="Data/gtfs23Sept/new_calendar.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -815,7 +815,7 @@
         <parameter key="condition_class" value="custom_filters"/>
         <parameter key="invert_filter" value="false"/>
         <list key="filters_list">
-          <parameter key="filters_entry_key" value="route_short_name.equals.7"/>
+          <parameter key="filters_entry_key" value="route_short_name.equals.5"/>
           <parameter key="filters_entry_key" value="direction_id.eq.0"/>
         </list>
         <parameter key="filters_logic_and" value="true"/>
@@ -973,13 +973,6 @@
             </list>
             <parameter key="keep_both_join_attributes" value="false"/>
           </operator>
-          <operator activated="true" class="generate_attributes" compatibility="9.10.001" expanded="true" height="82" name="Delay (h:m:s)" width="90" x="1519" y="34">
-            <list key="function_descriptions">
-              <parameter key="Delay (h:m:s)" value="concat( &#10;str(floor(Delay / (60*60)) % 24),&#10; &quot;:&quot;,&#10;str(floor(Delay / 60) % 60),&#10; &quot;:&quot;,&#10;str(floor(Delay) % 60)&#10;)"/>
-              <parameter key="dd" value="Delay / 60"/>
-            </list>
-            <parameter key="keep_all" value="true"/>
-          </operator>
           <connect from_port="in 1" to_op="Select Attributes (2)" to_port="example set input"/>
           <connect from_op="Select Attributes (2)" from_port="example set output" to_op="Delay" to_port="example set input"/>
           <connect from_op="Delay" from_port="example set output" to_op="Multiply (2)" to_port="input"/>
@@ -994,8 +987,7 @@
           <connect from_op="Multiply (4)" from_port="output 2" to_op="Min Delay" to_port="example set input"/>
           <connect from_op="Min Delay" from_port="example set output" to_op="Accurate trips" to_port="right"/>
           <connect from_op="Accurate trips" from_port="join" to_op="Join (9)" to_port="right"/>
-          <connect from_op="Join (9)" from_port="join" to_op="Delay (h:m:s)" to_port="example set input"/>
-          <connect from_op="Delay (h:m:s)" from_port="example set output" to_port="out 1"/>
+          <connect from_op="Join (9)" from_port="join" to_port="out 1"/>
           <portSpacing port="source_in 1" spacing="0"/>
           <portSpacing port="source_in 2" spacing="0"/>
           <portSpacing port="sink_out 1" spacing="0"/>
@@ -1005,7 +997,9 @@
       <operator activated="true" class="generate_attributes" compatibility="9.10.001" expanded="true" height="82" name="Generate Attributes" width="90" x="1117" y="187">
         <list key="function_descriptions">
           <parameter key="Day" value="date_str_custom(Time, &quot;E&quot;)"/>
-          <parameter key="Hour" value="concat(date_str_custom(arrival_time, &quot;H&quot;),&quot;:0:0&quot;)"/>
+          <parameter key="Hour" value="concat(date_str_custom(real_time, &quot;H&quot;),&quot;:0:0&quot;)"/>
+          <parameter key="Delay (h:m:s)" value="concat( &#13;&#10;str(floor(Delay / (60*60)) % 24),&#13;&#10; &quot;:&quot;,&#13;&#10;str(floor(Delay / 60) % 60),&#13;&#10; &quot;:&quot;,&#13;&#10;str(floor(Delay) % 60)&#13;&#10;)"/>
+          <parameter key="Delay (min)" value="round(Delay / 60, 2)"/>
         </list>
         <parameter key="keep_all" value="true"/>
       </operator>
