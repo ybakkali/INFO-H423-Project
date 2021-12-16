@@ -1,7 +1,5 @@
-from Script.Analyze import analyseSpeed, createVehiclesID, getAllVehicles
+from Script.Analyze import createVehiclesID, getAllVehicles
 from Script.ExtractData import getLineInfo, getStopsName, getPositionsFromCSV
-
-# data["data"][250]["Responses"][0]["lines"][0]["vehiclePositions"]
 from Script.Transport import Transport
 
 """
@@ -38,13 +36,10 @@ def main():
 
     transport = Transport(lines, stopsName)
 
-    # createCSVs("../Data") # Path to data
-    # positions = getPositionsFromCSV("../Data/CSV/vehiclePosition01.csv")
     positions = getPositionsFromCSV("../Data/CSV/vehiclePosition.csv")
 
     # yoyo(positions, transport)
     createVehiclesID(getAllVehicles(positions, transport), "../Data/CSV/vehiclePositionID.csv")
-    # analyseSpeed(positions, transport)
 
     # analyseStopsID(list(stopsName.keys()), positions)
 

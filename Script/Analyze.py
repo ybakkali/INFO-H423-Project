@@ -1,18 +1,6 @@
 from Script.ExtractData import getRawPositions, getStopsName
 
 
-def analyseSpeed(positions, transport):
-
-    allVehicles = getAllVehicles(positions, transport)
-
-    for k in allVehicles.keys():
-        vehicles = allVehicles[k]
-
-        stops = transport.lines[k]
-        speed = [[] for _ in range(len(stops) - 1)]
-        transport.printVehicles(vehicles)
-
-
 def getAllVehicles(allPositions, transport):
     allVehicles = {}
     i = 0

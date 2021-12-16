@@ -15,7 +15,7 @@
       <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Stops information" width="90" x="447" y="391">
         <process expanded="true">
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Stops Infomation" width="90" x="45" y="34">
-            <parameter key="csv_file" value="C:/Users/Maxime Hauwaert/PycharmProjects/INFO-H423-Project/Data/gtfs23Sept/stops.txt"/>
+            <parameter key="csv_file" value="Data/gtfs23Sept/stops.txt"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -74,7 +74,7 @@
       <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Vehicles Positions" width="90" x="447" y="34">
         <process expanded="true">
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Positions" width="90" x="45" y="34">
-            <parameter key="csv_file" value="C:/Users/Maxime Hauwaert/PycharmProjects/INFO-H423-Project/Data/CSV/vehiclePositionID.csv"/>
+            <parameter key="csv_file" value="Data/CSV/vehiclePositionID.csv"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -135,7 +135,7 @@
       <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Lines information" width="90" x="246" y="187">
         <process expanded="true">
           <operator activated="true" class="read_csv" compatibility="9.10.001" expanded="true" height="68" name="Lines Information" width="90" x="45" y="34">
-            <parameter key="csv_file" value="C:/Users/Maxime Hauwaert/PycharmProjects/INFO-H423-Project/Stops Distance.csv"/>
+            <parameter key="csv_file" value="Data/Stops Distance.csv"/>
             <parameter key="column_separators" value=","/>
             <parameter key="trim_lines" value="false"/>
             <parameter key="use_quotes" value="true"/>
@@ -455,284 +455,7 @@
         </list>
         <parameter key="keep_both_join_attributes" value="true"/>
       </operator>
-      <operator activated="true" class="multiply" compatibility="9.10.001" expanded="true" height="124" name="Multiply (4)" width="90" x="1519" y="187"/>
-      <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Output Hour" width="90" x="1720" y="289">
-        <process expanded="true">
-          <operator activated="true" class="aggregate" compatibility="9.10.001" expanded="true" height="82" name="Aggregate (3)" width="90" x="45" y="34">
-            <parameter key="use_default_aggregation" value="false"/>
-            <parameter key="attribute_filter_type" value="all"/>
-            <parameter key="attribute" value=""/>
-            <parameter key="attributes" value=""/>
-            <parameter key="use_except_expression" value="false"/>
-            <parameter key="value_type" value="attribute_value"/>
-            <parameter key="use_value_type_exception" value="false"/>
-            <parameter key="except_value_type" value="time"/>
-            <parameter key="block_type" value="attribute_block"/>
-            <parameter key="use_block_type_exception" value="false"/>
-            <parameter key="except_block_type" value="value_matrix_row_start"/>
-            <parameter key="invert_selection" value="false"/>
-            <parameter key="include_special_attributes" value="false"/>
-            <parameter key="default_aggregation_function" value="average"/>
-            <list key="aggregation_attributes">
-              <parameter key="average(Speed)" value="average"/>
-            </list>
-            <parameter key="group_by_attributes" value="LineID|numero_lig|PointID|stop_id|stop_id_from_ES2|stop_name|stop_name_from_ES2|succession|Variance|Variante|Hour|Hour_from_ES2"/>
-            <parameter key="count_all_combinations" value="false"/>
-            <parameter key="only_distinct" value="false"/>
-            <parameter key="ignore_missings" value="true"/>
-          </operator>
-          <operator activated="true" class="blending:sort" compatibility="9.10.001" expanded="true" height="82" name="Sort (5)" width="90" x="179" y="34">
-            <list key="sort_by">
-              <parameter key="numero_lig" value="ascending"/>
-              <parameter key="Variante" value="ascending"/>
-              <parameter key="succession" value="ascending"/>
-              <parameter key="Hour_from_ES2" value="ascending"/>
-            </list>
-          </operator>
-          <operator activated="true" class="multiply" compatibility="9.10.001" expanded="true" height="103" name="Multiply (6)" width="90" x="313" y="34"/>
-          <operator activated="true" class="select_attributes" compatibility="9.10.001" expanded="true" height="82" name="Select Attributes (8)" width="90" x="514" y="34">
-            <parameter key="attribute_filter_type" value="subset"/>
-            <parameter key="attribute" value=""/>
-            <parameter key="attributes" value="Day_from_ES2|Hour_from_ES2|numero_lig|stop_name|stop_name_from_ES2|Variante|average(average(Speed))"/>
-            <parameter key="use_except_expression" value="false"/>
-            <parameter key="value_type" value="attribute_value"/>
-            <parameter key="use_value_type_exception" value="false"/>
-            <parameter key="except_value_type" value="time"/>
-            <parameter key="block_type" value="attribute_block"/>
-            <parameter key="use_block_type_exception" value="false"/>
-            <parameter key="except_block_type" value="value_matrix_row_start"/>
-            <parameter key="invert_selection" value="false"/>
-            <parameter key="include_special_attributes" value="false"/>
-          </operator>
-          <operator activated="true" class="blending:rename" compatibility="9.10.001" expanded="true" height="82" name="Rename (5)" width="90" x="648" y="34">
-            <list key="rename attributes">
-              <parameter key="numero_lig" value="Line"/>
-              <parameter key="Variante" value="Variance"/>
-              <parameter key="stop_name_from_ES2" value="To"/>
-              <parameter key="stop_name" value="From"/>
-              <parameter key="average(average(Speed))" value="Speed Average"/>
-              <parameter key="Hour_from_ES2" value="Hour"/>
-            </list>
-            <parameter key="from_attribute" value=""/>
-            <parameter key="to_attribute" value=""/>
-          </operator>
-          <operator activated="true" class="order_attributes" compatibility="9.10.001" expanded="true" height="82" name="Reorder Attributes (5)" width="90" x="782" y="34">
-            <parameter key="sort_mode" value="user specified"/>
-            <parameter key="attribute_ordering" value="Line|Variance|From|To|Speed|Speed Average|Day|Hour"/>
-            <parameter key="use_regular_expressions" value="false"/>
-            <parameter key="handle_unmatched" value="append"/>
-            <parameter key="sort_direction" value="ascending"/>
-          </operator>
-          <operator activated="true" class="select_attributes" compatibility="9.10.001" expanded="true" height="82" name="Select Attributes (9)" width="90" x="514" y="136">
-            <parameter key="attribute_filter_type" value="subset"/>
-            <parameter key="attribute" value=""/>
-            <parameter key="attributes" value="Day_from_ES2|Hour_from_ES2|numero_lig|stop_id|stop_id_from_ES2|Variante|average(average(Speed))"/>
-            <parameter key="use_except_expression" value="false"/>
-            <parameter key="value_type" value="attribute_value"/>
-            <parameter key="use_value_type_exception" value="false"/>
-            <parameter key="except_value_type" value="time"/>
-            <parameter key="block_type" value="attribute_block"/>
-            <parameter key="use_block_type_exception" value="false"/>
-            <parameter key="except_block_type" value="value_matrix_row_start"/>
-            <parameter key="invert_selection" value="false"/>
-            <parameter key="include_special_attributes" value="false"/>
-          </operator>
-          <operator activated="true" class="blending:rename" compatibility="9.10.001" expanded="true" height="82" name="Rename (6)" width="90" x="648" y="136">
-            <list key="rename attributes">
-              <parameter key="numero_lig" value="Line"/>
-              <parameter key="Variante" value="Variance"/>
-              <parameter key="stop_id_from_ES2" value="To"/>
-              <parameter key="stop_id" value="From"/>
-              <parameter key="average(average(Speed))" value="Speed Average"/>
-              <parameter key="Hour_from_ES2" value="Hour"/>
-            </list>
-            <parameter key="from_attribute" value=""/>
-            <parameter key="to_attribute" value=""/>
-          </operator>
-          <operator activated="true" class="order_attributes" compatibility="9.10.001" expanded="true" height="82" name="Reorder Attributes (6)" width="90" x="782" y="136">
-            <parameter key="sort_mode" value="user specified"/>
-            <parameter key="attribute_ordering" value="Line|Variance|From|To|Speed|Speed Average|Day|Hour"/>
-            <parameter key="use_regular_expressions" value="false"/>
-            <parameter key="handle_unmatched" value="append"/>
-            <parameter key="sort_direction" value="ascending"/>
-          </operator>
-          <operator activated="true" class="write_csv" compatibility="9.10.001" expanded="true" height="82" name="Write CSV (5)" width="90" x="916" y="34">
-            <parameter key="csv_file" value="C:/Users/Maxime Hauwaert/PycharmProjects/INFO-H423-Project/SpeedAnalyzeHourPretty.csv"/>
-            <parameter key="column_separator" value=","/>
-            <parameter key="write_attribute_names" value="true"/>
-            <parameter key="quote_nominal_values" value="false"/>
-            <parameter key="format_date_attributes" value="true"/>
-            <parameter key="date_format" value="yyyy-MM-dd HH:mm:ss"/>
-            <parameter key="append_to_file" value="false"/>
-            <parameter key="encoding" value="SYSTEM"/>
-          </operator>
-          <operator activated="true" class="write_csv" compatibility="9.10.001" expanded="true" height="82" name="Write CSV (6)" width="90" x="916" y="136">
-            <parameter key="csv_file" value="C:/Users/Maxime Hauwaert/PycharmProjects/INFO-H423-Project/SpeedAnalyzeHour.csv"/>
-            <parameter key="column_separator" value=","/>
-            <parameter key="write_attribute_names" value="true"/>
-            <parameter key="quote_nominal_values" value="false"/>
-            <parameter key="format_date_attributes" value="true"/>
-            <parameter key="date_format" value="yyyy-MM-dd HH:mm:ss"/>
-            <parameter key="append_to_file" value="false"/>
-            <parameter key="encoding" value="SYSTEM"/>
-          </operator>
-          <connect from_port="in 1" to_op="Aggregate (3)" to_port="example set input"/>
-          <connect from_op="Aggregate (3)" from_port="example set output" to_op="Sort (5)" to_port="example set input"/>
-          <connect from_op="Sort (5)" from_port="example set output" to_op="Multiply (6)" to_port="input"/>
-          <connect from_op="Multiply (6)" from_port="output 1" to_op="Select Attributes (8)" to_port="example set input"/>
-          <connect from_op="Multiply (6)" from_port="output 2" to_op="Select Attributes (9)" to_port="example set input"/>
-          <connect from_op="Select Attributes (8)" from_port="example set output" to_op="Rename (5)" to_port="example set input"/>
-          <connect from_op="Rename (5)" from_port="example set output" to_op="Reorder Attributes (5)" to_port="example set input"/>
-          <connect from_op="Reorder Attributes (5)" from_port="example set output" to_op="Write CSV (5)" to_port="input"/>
-          <connect from_op="Select Attributes (9)" from_port="example set output" to_op="Rename (6)" to_port="example set input"/>
-          <connect from_op="Rename (6)" from_port="example set output" to_op="Reorder Attributes (6)" to_port="example set input"/>
-          <connect from_op="Reorder Attributes (6)" from_port="example set output" to_op="Write CSV (6)" to_port="input"/>
-          <connect from_op="Write CSV (5)" from_port="through" to_port="out 1"/>
-          <portSpacing port="source_in 1" spacing="0"/>
-          <portSpacing port="source_in 2" spacing="0"/>
-          <portSpacing port="sink_out 1" spacing="0"/>
-          <portSpacing port="sink_out 2" spacing="0"/>
-        </process>
-      </operator>
-      <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Output Day" width="90" x="1720" y="187">
-        <process expanded="true">
-          <operator activated="true" class="aggregate" compatibility="9.10.001" expanded="true" height="82" name="Aggregate (2)" width="90" x="45" y="34">
-            <parameter key="use_default_aggregation" value="false"/>
-            <parameter key="attribute_filter_type" value="all"/>
-            <parameter key="attribute" value=""/>
-            <parameter key="attributes" value=""/>
-            <parameter key="use_except_expression" value="false"/>
-            <parameter key="value_type" value="attribute_value"/>
-            <parameter key="use_value_type_exception" value="false"/>
-            <parameter key="except_value_type" value="time"/>
-            <parameter key="block_type" value="attribute_block"/>
-            <parameter key="use_block_type_exception" value="false"/>
-            <parameter key="except_block_type" value="value_matrix_row_start"/>
-            <parameter key="invert_selection" value="false"/>
-            <parameter key="include_special_attributes" value="false"/>
-            <parameter key="default_aggregation_function" value="average"/>
-            <list key="aggregation_attributes">
-              <parameter key="average(Speed)" value="average"/>
-            </list>
-            <parameter key="group_by_attributes" value="Day_from_ES2|stop_id_from_ES2|stop_name|stop_name_from_ES2|Variante|Variance|succession|stop_id|PointID|numero_lig|DayID|Day|LineID"/>
-            <parameter key="count_all_combinations" value="false"/>
-            <parameter key="only_distinct" value="false"/>
-            <parameter key="ignore_missings" value="true"/>
-          </operator>
-          <operator activated="true" class="blending:sort" compatibility="9.10.001" expanded="true" height="82" name="Sort (4)" width="90" x="179" y="34">
-            <list key="sort_by">
-              <parameter key="numero_lig" value="ascending"/>
-              <parameter key="Variante" value="ascending"/>
-              <parameter key="succession" value="ascending"/>
-              <parameter key="DayID" value="ascending"/>
-            </list>
-          </operator>
-          <operator activated="true" class="multiply" compatibility="9.10.001" expanded="true" height="103" name="Multiply (5)" width="90" x="313" y="34"/>
-          <operator activated="true" class="select_attributes" compatibility="9.10.001" expanded="true" height="82" name="Select Attributes (5)" width="90" x="514" y="34">
-            <parameter key="attribute_filter_type" value="subset"/>
-            <parameter key="attribute" value=""/>
-            <parameter key="attributes" value="Day_from_ES2|Hour_from_ES2|numero_lig|stop_name|stop_name_from_ES2|Variante|average(average(Speed))"/>
-            <parameter key="use_except_expression" value="false"/>
-            <parameter key="value_type" value="attribute_value"/>
-            <parameter key="use_value_type_exception" value="false"/>
-            <parameter key="except_value_type" value="time"/>
-            <parameter key="block_type" value="attribute_block"/>
-            <parameter key="use_block_type_exception" value="false"/>
-            <parameter key="except_block_type" value="value_matrix_row_start"/>
-            <parameter key="invert_selection" value="false"/>
-            <parameter key="include_special_attributes" value="false"/>
-          </operator>
-          <operator activated="true" class="blending:rename" compatibility="9.10.001" expanded="true" height="82" name="Rename (3)" width="90" x="648" y="34">
-            <list key="rename attributes">
-              <parameter key="numero_lig" value="Line"/>
-              <parameter key="Variante" value="Variance"/>
-              <parameter key="stop_name_from_ES2" value="To"/>
-              <parameter key="stop_name" value="From"/>
-              <parameter key="average(average(Speed))" value="Speed Average"/>
-              <parameter key="Day_from_ES2" value="Day"/>
-            </list>
-            <parameter key="from_attribute" value=""/>
-            <parameter key="to_attribute" value=""/>
-          </operator>
-          <operator activated="true" class="order_attributes" compatibility="9.10.001" expanded="true" height="82" name="Reorder Attributes (3)" width="90" x="782" y="34">
-            <parameter key="sort_mode" value="user specified"/>
-            <parameter key="attribute_ordering" value="Line|Variance|From|To|Speed|Speed Average|Day|Hour"/>
-            <parameter key="use_regular_expressions" value="false"/>
-            <parameter key="handle_unmatched" value="append"/>
-            <parameter key="sort_direction" value="ascending"/>
-          </operator>
-          <operator activated="true" class="select_attributes" compatibility="9.10.001" expanded="true" height="82" name="Select Attributes (7)" width="90" x="514" y="136">
-            <parameter key="attribute_filter_type" value="subset"/>
-            <parameter key="attribute" value=""/>
-            <parameter key="attributes" value="Day_from_ES2|Hour_from_ES2|numero_lig|stop_id|stop_id_from_ES2|Variante|average(average(Speed))"/>
-            <parameter key="use_except_expression" value="false"/>
-            <parameter key="value_type" value="attribute_value"/>
-            <parameter key="use_value_type_exception" value="false"/>
-            <parameter key="except_value_type" value="time"/>
-            <parameter key="block_type" value="attribute_block"/>
-            <parameter key="use_block_type_exception" value="false"/>
-            <parameter key="except_block_type" value="value_matrix_row_start"/>
-            <parameter key="invert_selection" value="false"/>
-            <parameter key="include_special_attributes" value="false"/>
-          </operator>
-          <operator activated="true" class="blending:rename" compatibility="9.10.001" expanded="true" height="82" name="Rename (4)" width="90" x="648" y="136">
-            <list key="rename attributes">
-              <parameter key="numero_lig" value="Line"/>
-              <parameter key="Variante" value="Variance"/>
-              <parameter key="stop_id_from_ES2" value="To"/>
-              <parameter key="stop_id" value="From"/>
-              <parameter key="average(average(Speed))" value="Speed Average"/>
-              <parameter key="Day_from_ES2" value="Day"/>
-            </list>
-            <parameter key="from_attribute" value=""/>
-            <parameter key="to_attribute" value=""/>
-          </operator>
-          <operator activated="true" class="order_attributes" compatibility="9.10.001" expanded="true" height="82" name="Reorder Attributes (4)" width="90" x="782" y="136">
-            <parameter key="sort_mode" value="user specified"/>
-            <parameter key="attribute_ordering" value="Line|Variance|From|To|Speed|Speed Average|Day|Hour"/>
-            <parameter key="use_regular_expressions" value="false"/>
-            <parameter key="handle_unmatched" value="append"/>
-            <parameter key="sort_direction" value="ascending"/>
-          </operator>
-          <operator activated="true" class="write_csv" compatibility="9.10.001" expanded="true" height="82" name="Write CSV (2)" width="90" x="916" y="34">
-            <parameter key="csv_file" value="C:/Users/Maxime Hauwaert/PycharmProjects/INFO-H423-Project/SpeedAnalyzeDayPretty.csv"/>
-            <parameter key="column_separator" value=","/>
-            <parameter key="write_attribute_names" value="true"/>
-            <parameter key="quote_nominal_values" value="false"/>
-            <parameter key="format_date_attributes" value="true"/>
-            <parameter key="date_format" value="yyyy-MM-dd HH:mm:ss"/>
-            <parameter key="append_to_file" value="false"/>
-            <parameter key="encoding" value="SYSTEM"/>
-          </operator>
-          <operator activated="true" class="write_csv" compatibility="9.10.001" expanded="true" height="82" name="Write CSV (4)" width="90" x="916" y="136">
-            <parameter key="csv_file" value="C:/Users/Maxime Hauwaert/PycharmProjects/INFO-H423-Project/SpeedAnalyzeDay.csv"/>
-            <parameter key="column_separator" value=","/>
-            <parameter key="write_attribute_names" value="true"/>
-            <parameter key="quote_nominal_values" value="false"/>
-            <parameter key="format_date_attributes" value="true"/>
-            <parameter key="date_format" value="yyyy-MM-dd HH:mm:ss"/>
-            <parameter key="append_to_file" value="false"/>
-            <parameter key="encoding" value="SYSTEM"/>
-          </operator>
-          <connect from_port="in 1" to_op="Aggregate (2)" to_port="example set input"/>
-          <connect from_op="Aggregate (2)" from_port="example set output" to_op="Sort (4)" to_port="example set input"/>
-          <connect from_op="Sort (4)" from_port="example set output" to_op="Multiply (5)" to_port="input"/>
-          <connect from_op="Multiply (5)" from_port="output 1" to_op="Select Attributes (5)" to_port="example set input"/>
-          <connect from_op="Multiply (5)" from_port="output 2" to_op="Select Attributes (7)" to_port="example set input"/>
-          <connect from_op="Select Attributes (5)" from_port="example set output" to_op="Rename (3)" to_port="example set input"/>
-          <connect from_op="Rename (3)" from_port="example set output" to_op="Reorder Attributes (3)" to_port="example set input"/>
-          <connect from_op="Reorder Attributes (3)" from_port="example set output" to_op="Write CSV (2)" to_port="input"/>
-          <connect from_op="Select Attributes (7)" from_port="example set output" to_op="Rename (4)" to_port="example set input"/>
-          <connect from_op="Rename (4)" from_port="example set output" to_op="Reorder Attributes (4)" to_port="example set input"/>
-          <connect from_op="Reorder Attributes (4)" from_port="example set output" to_op="Write CSV (4)" to_port="input"/>
-          <connect from_op="Write CSV (2)" from_port="through" to_port="out 1"/>
-          <portSpacing port="source_in 1" spacing="0"/>
-          <portSpacing port="source_in 2" spacing="0"/>
-          <portSpacing port="sink_out 1" spacing="0"/>
-          <portSpacing port="sink_out 2" spacing="0"/>
-        </process>
-      </operator>
-      <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Output Full" width="90" x="1720" y="85">
+      <operator activated="true" class="subprocess" compatibility="9.10.001" expanded="true" height="82" name="Output Full" width="90" x="1519" y="187">
         <process expanded="true">
           <operator activated="true" class="blending:sort" compatibility="9.10.001" expanded="true" height="82" name="Sort (3)" width="90" x="45" y="34">
             <list key="sort_by">
@@ -812,18 +535,8 @@
             <parameter key="handle_unmatched" value="append"/>
             <parameter key="sort_direction" value="ascending"/>
           </operator>
-          <operator activated="true" class="write_csv" compatibility="9.10.001" expanded="true" height="82" name="Write CSV" width="90" x="782" y="34">
-            <parameter key="csv_file" value="C:/Users/Maxime Hauwaert/PycharmProjects/INFO-H423-Project/SpeedAnalyzeDayHourPretty.csv"/>
-            <parameter key="column_separator" value=","/>
-            <parameter key="write_attribute_names" value="true"/>
-            <parameter key="quote_nominal_values" value="false"/>
-            <parameter key="format_date_attributes" value="true"/>
-            <parameter key="date_format" value="yyyy-MM-dd HH:mm:ss"/>
-            <parameter key="append_to_file" value="false"/>
-            <parameter key="encoding" value="SYSTEM"/>
-          </operator>
           <operator activated="true" class="write_csv" compatibility="9.10.001" expanded="true" height="82" name="Write CSV (3)" width="90" x="782" y="136">
-            <parameter key="csv_file" value="C:/Users/Maxime Hauwaert/PycharmProjects/INFO-H423-Project/SpeedAnalyzeDayHour.csv"/>
+            <parameter key="csv_file" value="Data/CSV/SpeedAnalyzeDayHour.csv"/>
             <parameter key="column_separator" value=","/>
             <parameter key="write_attribute_names" value="true"/>
             <parameter key="quote_nominal_values" value="false"/>
@@ -838,11 +551,10 @@
           <connect from_op="Multiply (3)" from_port="output 2" to_op="Select Attributes (4)" to_port="example set input"/>
           <connect from_op="Select Attributes (3)" from_port="example set output" to_op="Rename" to_port="example set input"/>
           <connect from_op="Rename" from_port="example set output" to_op="Reorder Attributes" to_port="example set input"/>
-          <connect from_op="Reorder Attributes" from_port="example set output" to_op="Write CSV" to_port="input"/>
+          <connect from_op="Reorder Attributes" from_port="example set output" to_port="out 1"/>
           <connect from_op="Select Attributes (4)" from_port="example set output" to_op="Rename (2)" to_port="example set input"/>
           <connect from_op="Rename (2)" from_port="example set output" to_op="Reorder Attributes (2)" to_port="example set input"/>
           <connect from_op="Reorder Attributes (2)" from_port="example set output" to_op="Write CSV (3)" to_port="input"/>
-          <connect from_op="Write CSV" from_port="through" to_port="out 1"/>
           <portSpacing port="source_in 1" spacing="0"/>
           <portSpacing port="source_in 2" spacing="0"/>
           <portSpacing port="sink_out 1" spacing="0"/>
@@ -860,18 +572,11 @@
       <connect from_op="Generate Speed" from_port="out 1" to_op="Join (5)" to_port="left"/>
       <connect from_op="Create Day X Hour" from_port="out 1" to_op="Cartesian" to_port="right"/>
       <connect from_op="Cartesian" from_port="join" to_op="Join (5)" to_port="right"/>
-      <connect from_op="Join (5)" from_port="join" to_op="Multiply (4)" to_port="input"/>
-      <connect from_op="Multiply (4)" from_port="output 1" to_op="Output Full" to_port="in 1"/>
-      <connect from_op="Multiply (4)" from_port="output 2" to_op="Output Day" to_port="in 1"/>
-      <connect from_op="Multiply (4)" from_port="output 3" to_op="Output Hour" to_port="in 1"/>
-      <connect from_op="Output Hour" from_port="out 1" to_port="result 3"/>
-      <connect from_op="Output Day" from_port="out 1" to_port="result 2"/>
+      <connect from_op="Join (5)" from_port="join" to_op="Output Full" to_port="in 1"/>
       <connect from_op="Output Full" from_port="out 1" to_port="result 1"/>
       <portSpacing port="source_input 1" spacing="0"/>
       <portSpacing port="sink_result 1" spacing="0"/>
       <portSpacing port="sink_result 2" spacing="0"/>
-      <portSpacing port="sink_result 3" spacing="0"/>
-      <portSpacing port="sink_result 4" spacing="0"/>
     </process>
   </operator>
 </process>
