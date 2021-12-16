@@ -31,7 +31,7 @@ def getAllVehicles(allPositions, transport):
 
             a = 0
             while a < len(vehicles):
-                if t[0][0] - vehicles[a][-1][0] > 300000:
+                if t[0][0] - vehicles[a][-1][0] > 2.5 * 60 * 1000:
                     oldVehicles.append(vehicles.pop(a))
                 else:
                     a += 1
