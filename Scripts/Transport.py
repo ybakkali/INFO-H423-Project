@@ -75,6 +75,16 @@ class Transport:
         t = (position[0] - vehicle_last_position[0]) / 3600000
         return d/t
 
+    def getArrivalTime(self, line, time, stopID, destination=None):
+        if destination is None:
+            destination = None  # Next Stop
+        # return self.lines
+        return 10
+
+    def getNextStop(self, line, stopID):
+        i = self.getIndexStop(stopID, line)
+        return self.lines[line][i][0] if i < len(self.lines[line]) else None
+
     def getDistanceStop(self, stop, line):
         return self.lines[line][self.getIndexStop(stop, line)][1]
 
