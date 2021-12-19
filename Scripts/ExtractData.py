@@ -126,24 +126,6 @@ def getPositionsFromCSV(file_path):
     return positions
 
 
-def getBasicSpeed(file_path):
-    speed = {}
-
-    with open(file_path, "r") as file:
-        file.readline()
-        for line in file:
-            info = line.strip().split(",")
-
-            lineID = info[0]
-            variance = str(int(info[1])+1)
-            s = float(info[2]) if info[2] != "" else 0
-
-            key = (lineID, variance)
-            speed[key] = s
-
-    return speed
-
-
 def getFullSpeed(file_path):
     speed = {}
 

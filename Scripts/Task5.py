@@ -1,6 +1,6 @@
 import webbrowser
 
-from Scripts.ExtractData import getLineInfo, getStopsName, getFullSpeed, getBasicSpeed
+from Scripts.ExtractData import getLineInfo, getStopsName, getFullSpeed
 from Scripts.Transport import Transport
 from datetime import datetime, timedelta
 from copy import deepcopy
@@ -13,8 +13,7 @@ RUNNING = 5  # 5 km/h
 Lines = getLineInfo("../Data/LinesInformation.csv")
 StopsName = getStopsName("../Data/gtfs23Sept/stops.txt")
 Speed = getFullSpeed("../Data/CSV/SpeedAnalyzeDayHour.csv")
-BasicSpeed = getBasicSpeed("../Data/CSV/BasicSpeed.csv")
-STIB = Transport(Lines, StopsName, speed=Speed, basicSpeed=BasicSpeed)
+STIB = Transport(Lines, StopsName, speed=Speed)
 
 
 def getStops(filename):
