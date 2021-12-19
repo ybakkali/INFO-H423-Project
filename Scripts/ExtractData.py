@@ -126,6 +126,32 @@ def getPositionsFromCSV(file_path):
     return positions
 
 
+def getFullSpeed(file_path):
+    speed = {}
+
+    with open(file_path, "r") as file:
+        file.readline()
+        for line in file:
+            info = line.strip().split(",")
+
+            lineID = info[0]
+            variance = str(int(info[1])+1)
+            s = float(info[4]) if info[4] != "" else 0
+
+            day = info[5].strip("\"")
+            hour = info[6].strip("\"")
+
+            key = ((lineID, variance), day, hour)
+
+            if key not in speed:
+                speed[key] = [s]
+
+            else:
+                speed[key].append(s)
+
+    return speed
+
+
 def getSpeed(file_path):
     speed = {}
     with open(file_path, "r") as file:

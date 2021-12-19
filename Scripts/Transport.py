@@ -1,12 +1,13 @@
 import math
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class Transport:
 
-    def __init__(self, lines=None, stopsName=None, speedStop=None):
+    def __init__(self, lines=None, stopsName=None, speed=None, speedStop=None):
         self.lines = lines
         self.stopsName = stopsName
+        self.speed = speed
         self.speedStop = speedStop
 
     def getRealStop(self, stopID, lineID, variance=None):
@@ -75,11 +76,34 @@ class Transport:
         t = (position[0] - vehicle_last_position[0]) / 3600000
         return d/t
 
-    def getArrivalTime(self, line, time, stopID, destination=None):
+    def getArrivalTime(self, line, t, stopID, destination=None):
         if destination is None:
             destination = self.getNextStop(line, stopID)  # Next Stop
 
-        return 10
+        day = t.strftime("%a")
+        hour = str(int(t.strftime("%H")))
+
+        speed = self.getAverageSpeed(line, day, hour, stopID, destination)
+
+        distance = self.getDistanceStop(stopID, line) / 1000  # km
+
+        return t + timedelta(hours=distance/speed) if speed > 0 else None
+
+    def getAverageSpeed(self, line, d, h, stopFrom, stopTo):
+        iFrom = self.getIndexStop(stopFrom, line)
+        iTo = self.getIndexStop(stopTo, line)
+
+        if iTo - iFrom <= 0:
+            return -math.inf
+
+        try:
+            speeds = self.speed[(line, d, h)][iFrom:iTo]
+            average = sum(speeds)/len(speeds)
+
+        except:
+            average = 0
+
+        return average
 
     def getNextStop(self, line, stopID):
         i = self.getIndexStop(stopID, line)
