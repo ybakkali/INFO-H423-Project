@@ -139,7 +139,7 @@ def getFullSpeed(file_path):
             s = float(info[4]) if info[4] != "" else 0
 
             day = info[5].strip("\"")
-            hour = info[6].strip("\"")
+            hour = str(int(float(info[6].strip("\""))))
 
             key = ((lineID, variance), day, hour)
 

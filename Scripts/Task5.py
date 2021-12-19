@@ -1,4 +1,7 @@
 import webbrowser
+
+from pandas.io.formats.style import jinja2
+
 from Scripts.ExtractData import getLineInfo, getStopsName, getFullSpeed
 from Scripts.Transport import Transport
 from datetime import datetime, timedelta
@@ -7,12 +10,12 @@ from haversine import haversine, Unit
 import folium
 import folium.plugins
 
-RUNNING = 1  # 10 km/h
+RUNNING = 10  # 10 km/h
 
 Lines = getLineInfo("../Data/LinesInformation.csv")
 StopsName = getStopsName("../Data/gtfs23Sept/stops.txt")
 Speed = getFullSpeed("../Data/CSV/SpeedAnalyzeDayHour.csv")
-STIB = Transport(Lines, StopsName)
+STIB = Transport(Lines, StopsName, speed=Speed)
 
 
 def getStops(filename):
@@ -71,7 +74,6 @@ def getStopsByTransport(stopID, t, limit):
 
     for line in lines:
         destination = STIB.getNextStop(line, stopID)
-
         if destination is not None:
             arrival_time = STIB.getArrivalTime(line, t, stopID, destination)
             if arrival_time is not None and arrival_time <= limit:
@@ -108,18 +110,18 @@ def generateCircle(stops, limit):
 def showOnMap(circles, stops):
     brussels_map = folium.Map((50.8476, 4.3572), zoom_start=12)
 
-    fg = folium.FeatureGroup(style="opacity:0.5")
+    fg = folium.FeatureGroup()
 
     for position, distance in circles:
         folium.vector_layers.Circle(
             location=position,
             tooltip=None,
             radius=distance * 1000,
-            color='#3186cc',
+            color='grey',
             opacity=0,
             fill=True,
             fill_color='black',
-            fill_opacity=0.1
+            fill_opacity=1
         ).add_to(fg)
 
     brussels_map.add_child(fg)
@@ -132,12 +134,15 @@ def showOnMap(circles, stops):
                   popup="Start position", icon=folium.Icon(color="red")).add_to(brussels_map)
 
     brussels_map.save('map.html')
+    with open("map.html", "a") as f:
+        f.write('\n<script>var list = document.getElementsByClassName("leaflet-zoom-animated");var i = 0;for (i = 0; i < list.length; i++) {if (list[i].classList.length === 1) {break;}}list[i].style.opacity = "0.5";</script>\n')
     webbrowser.open('map.html')
 
 
 def main():
 
-    position = (50.780214, 4.325869)
+    # position = (50.780214, 4.325869)
+    position = (50.860780, 4.342115)
 
     t = datetime.now()
     time_interval = timedelta(minutes=10)
