@@ -1,6 +1,6 @@
 import webbrowser
 
-from Scripts.ExtractData import getLineInfo, getStopsName, getFullSpeed
+from Scripts.ExtractData import getLineInfo, getStopsName, getFullSpeed, getBasicSpeed
 from Scripts.Transport import Transport
 from datetime import datetime, timedelta
 from copy import deepcopy
@@ -13,7 +13,8 @@ RUNNING = 5  # 5 km/h
 Lines = getLineInfo("../Data/LinesInformation.csv")
 StopsName = getStopsName("../Data/gtfs23Sept/stops.txt")
 Speed = getFullSpeed("../Data/CSV/SpeedAnalyzeDayHour.csv")
-STIB = Transport(Lines, StopsName, speed=Speed)
+BasicSpeed = getBasicSpeed("../Data/CSV/BasicSpeed.csv")
+STIB = Transport(Lines, StopsName, speed=Speed, basicSpeed=BasicSpeed)
 
 
 def getStops(filename):
@@ -97,15 +98,16 @@ def generateCircle(stops, limit):
     circles = []
 
     for stop, t in stops.items():
-        time_left = limit - t
-        distance = RUNNING * time_left.total_seconds() / 3600
-        circles.append((StopsInformation[stop], distance))
+        if stop in StopsInformation:
+            time_left = limit - t
+            distance = RUNNING * time_left.total_seconds() / 3600
+            circles.append((StopsInformation[stop], distance))
 
     return circles
 
 
 def showOnMap(circles, stops):
-    brussels_map = folium.Map((50.8476, 4.3572), zoom_start=12)
+    brussels_map = folium.Map((50.813154, 4.382225), zoom_start=12)
 
     fg = folium.FeatureGroup()
 
@@ -124,8 +126,9 @@ def showOnMap(circles, stops):
     brussels_map.add_child(fg)
 
     for stop in stops:
-        folium.Marker(location=StopsInformation[stop],
-                      popup=STIB.getStationName(stop).strip("\""), icon=folium.Icon(color="blue")).add_to(brussels_map)
+        if stop in StopsInformation:
+            folium.Marker(location=StopsInformation[stop],
+                          popup=STIB.getStationName(stop).strip("\""), icon=folium.Icon(color="blue")).add_to(brussels_map)
 
     folium.Marker(location=circles[-1][0],
                   popup="Start position", icon=folium.Icon(color="red")).add_to(brussels_map)
@@ -138,10 +141,10 @@ def showOnMap(circles, stops):
 
 def main():
 
-    start_position = (50.860780, 4.342115)
+    start_position = (50.813154, 4.382225)
 
     t = datetime.now()
-    time_interval = timedelta(minutes=30)
+    time_interval = timedelta(minutes=15)
     limit = t + time_interval
 
     stops = getStopsByRunning(start_position, t, limit)
@@ -152,7 +155,7 @@ def main():
         last_stops = deepcopy(stops)
         new_modified = set()
         for stop, t in last_stops.items():
-            if stop in modified:
+            if stop in modified and stop in StopsInformation:
                 position = StopsInformation[stop]  # position of stopID
                 stopsRunning = getStopsByRunning(position, t, limit)
                 stopsTransport = getStopsByTransport(stop, t, limit)

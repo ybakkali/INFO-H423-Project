@@ -4,11 +4,12 @@ from datetime import datetime, timedelta
 
 class Transport:
 
-    def __init__(self, lines=None, stopsName=None, speed=None, speedStop=None):
+    def __init__(self, lines=None, stopsName=None, speed=None, speedStop=None, basicSpeed=None):
         self.lines = lines
         self.stopsName = stopsName
         self.speed = speed
         self.speedStop = speedStop
+        self.basicSpeed = basicSpeed
 
     def getRealStop(self, stopID, lineID, variance=None):
         if variance is None:
@@ -85,7 +86,10 @@ class Transport:
 
         speed = self.getAverageSpeed(line, day, hour, stopID, destination)
 
-        distance = self.getDistanceStop(stopID, line) / 1000  # km
+        distance = (self.getDistanceStop(destination, line) - self.getDistanceStop(stopID, line)) / 1000  # km
+
+        if speed == 0 and line in self.basicSpeed:
+            speed = self.basicSpeed[line]
 
         return t + timedelta(hours=distance/speed) if speed > 0 else None
 
