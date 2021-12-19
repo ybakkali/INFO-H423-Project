@@ -53,7 +53,7 @@
             <parameter key="invert_filter" value="false"/>
             <list key="filters_list">
               <parameter key="filters_entry_key" value="DistanceFromPoint.eq.0"/>
-              <parameter key="filters_entry_key" value="LineID.equals.5"/>
+              <parameter key="filters_entry_key" value="LineID.equals.1"/>
               <parameter key="filters_entry_key" value="Variance.eq.0"/>
             </list>
             <parameter key="filters_logic_and" value="true"/>
@@ -320,7 +320,7 @@
             <parameter key="grouped_digits" value="false"/>
             <parameter key="grouping_character" value=","/>
             <parameter key="infinity_representation" value=""/>
-            <parameter key="date_format" value="hh:mm:ss"/>
+            <parameter key="date_format" value="kk:mm:ss"/>
             <parameter key="first_row_as_names" value="true"/>
             <list key="annotations"/>
             <parameter key="time_zone" value="SYSTEM"/>
@@ -541,7 +541,7 @@
             <parameter key="grouped_digits" value="false"/>
             <parameter key="grouping_character" value=","/>
             <parameter key="infinity_representation" value=""/>
-            <parameter key="date_format" value="hh:mm:ss"/>
+            <parameter key="date_format" value="kk:mm:ss"/>
             <parameter key="first_row_as_names" value="true"/>
             <list key="annotations"/>
             <parameter key="time_zone" value="SYSTEM"/>
@@ -815,7 +815,7 @@
         <parameter key="condition_class" value="custom_filters"/>
         <parameter key="invert_filter" value="false"/>
         <list key="filters_list">
-          <parameter key="filters_entry_key" value="route_short_name.equals.5"/>
+          <parameter key="filters_entry_key" value="route_short_name.equals.1"/>
           <parameter key="filters_entry_key" value="direction_id.eq.0"/>
         </list>
         <parameter key="filters_logic_and" value="true"/>
@@ -864,7 +864,7 @@
             </list>
             <parameter key="keep_all" value="true"/>
           </operator>
-          <operator activated="true" class="multiply" compatibility="9.10.001" expanded="true" height="103" name="Multiply (2)" width="90" x="313" y="34"/>
+          <operator activated="true" class="multiply" compatibility="9.10.001" expanded="true" height="124" name="Multiply (2)" width="90" x="313" y="34"/>
           <operator activated="true" class="aggregate" compatibility="9.10.001" expanded="true" height="82" name="Count Stops" width="90" x="447" y="85">
             <parameter key="use_default_aggregation" value="false"/>
             <parameter key="attribute_filter_type" value="all"/>
