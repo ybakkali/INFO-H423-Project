@@ -141,17 +141,26 @@ def main():
         count = countPointsDistanceLines(geo_df, lines)
 
         p = 0.75 * len(points)
+        vote = []
         candidate_lines = []
         for k in count:
             if count[k] >= p:
+                vote.append(count[k])
                 candidate_lines.append(k)
 
-        print("len: ", len(points))
-        print("dico: ", count)
-        print("candida: ", candidate_lines)
+        print("Track ID:  ", trackId)
+        print("."*25)
+        print("Position analysis: \n")
+        print("Candidate lines: ", candidate_lines, "\nVotes: ", vote, " / ", len(points))
+        percentages = [round(elem/len(points)*100, 3) for elem in vote]
+        print("Percentages: ", percentages)
+        print("."*25)
+        print("Speed analysis:\n")
 
         if len(candidate_lines) == 0:
             track_transport_mode = None
+            line_info = (None, None)
+            print("."*25)
 
         else:
             speeds = computeSpeed(points)
@@ -169,9 +178,10 @@ def main():
                 stop_2 = getClosestStop(stops, geo_df.iloc[-1]).strip('"')  # [1:-1]
                 average_line_speed = transport.getAverageSpeedStop(line, stop_1, stop_2)
 
-                print("line", line, "\nstops: ", stop_1, " /// ", stop_2)
-                print("average_speed", average_speed)
-                print("average_line_speed", average_line_speed)
+                print("Line and variance ", line, "\nstops (from --> to): ", stop_1, " --> ", stop_2)
+                print("Average line speed: ", average_line_speed)
+                print("Average track speed: ", average_speed)
+                print("."*25)
 
                 if abs(average_line_speed - average_speed) > 20:
                     candidate_lines.pop(i)
@@ -180,15 +190,18 @@ def main():
 
             if len(candidate_lines) == 0:
                 track_transport_mode = None
+                line_info = (None, None)
 
             else:
                 lst = [(candidate_line, count[candidate_line]) for candidate_line in candidate_lines]
                 lst.sort(key=lambda x: x[1])
-                track_transport_mode = extractInfo(lst[-1][0])[1]  # TODO: celui de maximum
+                line_info, track_transport_mode = extractInfo(lst[-1][0])
 
         string_transport_mode = "Other" if track_transport_mode is None else track_transport_mode
-        print("Track", trackId, "transport mode", string_transport_mode)
-        print("*" * 50, "\n")
+        print("Result: \n")
+        print("Track: ", trackId, " --> transport mode", string_transport_mode, end="")
+        print(" (Probably the line is: ", line_info[0], ")")
+        print("*"*100, "\n")
 
 
 if __name__ == '__main__':
