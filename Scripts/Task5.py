@@ -1,7 +1,5 @@
 import webbrowser
 
-from pandas.io.formats.style import jinja2
-
 from Scripts.ExtractData import getLineInfo, getStopsName, getFullSpeed
 from Scripts.Transport import Transport
 from datetime import datetime, timedelta
@@ -10,7 +8,7 @@ from haversine import haversine, Unit
 import folium
 import folium.plugins
 
-RUNNING = 10  # 10 km/h
+RUNNING = 5  # 5 km/h
 
 Lines = getLineInfo("../Data/LinesInformation.csv")
 StopsName = getStopsName("../Data/gtfs23Sept/stops.txt")
@@ -102,7 +100,6 @@ def generateCircle(stops, limit):
         time_left = limit - t
         distance = RUNNING * time_left.total_seconds() / 3600
         circles.append((StopsInformation[stop], distance))
-        # circles[StopsInformation[stop]] = distance
 
     return circles
 
@@ -130,7 +127,7 @@ def showOnMap(circles, stops):
         folium.Marker(location=StopsInformation[stop],
                       popup=STIB.getStationName(stop).strip("\""), icon=folium.Icon(color="blue")).add_to(brussels_map)
 
-    folium.Marker(location=circles[0][0],
+    folium.Marker(location=circles[-1][0],
                   popup="Start position", icon=folium.Icon(color="red")).add_to(brussels_map)
 
     brussels_map.save('map.html')
@@ -141,14 +138,13 @@ def showOnMap(circles, stops):
 
 def main():
 
-    # position = (50.780214, 4.325869)
-    position = (50.860780, 4.342115)
+    start_position = (50.860780, 4.342115)
 
     t = datetime.now()
-    time_interval = timedelta(minutes=10)
+    time_interval = timedelta(minutes=30)
     limit = t + time_interval
 
-    stops = getStopsByRunning(position, t, limit)
+    stops = getStopsByRunning(start_position, t, limit)
 
     modified = set(stop for stop, _ in stops.items())
 
@@ -167,7 +163,7 @@ def main():
         modified = new_modified
 
     circles = generateCircle(stops, limit)
-    circles.insert(-1, (position, RUNNING * (limit - t).total_seconds() / 3600))
+    circles.append((start_position, RUNNING * (limit - t).total_seconds() / 3600))
 
     showOnMap(circles, stops)
 
