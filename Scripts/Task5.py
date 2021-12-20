@@ -155,9 +155,11 @@ def showOnMap(circles, stops):
 
 def main():
 
-    start_position = (50.813154, 4.382225)
+    start_position = (50.813154, 4.382225)  # ULB
 
-    t = datetime.now()
+    # t = datetime.now()
+    t = datetime(2021, 12, 23, 8, 10)  # Morning
+    # t = datetime(2021, 12, 23, 23, 10)  # Night
     time_interval = timedelta(minutes=15)
     limit = t + time_interval
 
