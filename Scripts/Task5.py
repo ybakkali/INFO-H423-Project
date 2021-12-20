@@ -1,6 +1,6 @@
 import webbrowser
 
-from Scripts.ExtractData import getLineInfo, getStopsName, getFullSpeed
+from Scripts.ExtractData import getLineInfo, getStopsName, getFullSpeed, getStopsMode
 from Scripts.Transport import Transport
 from datetime import datetime, timedelta
 from copy import deepcopy
@@ -32,6 +32,7 @@ def getStops(filename):
 
 
 StopsInformation = getStops("../Data/gtfs23Sept/stops.txt")
+StopsMode = getStopsMode("../Data/LinesInformation.csv")
 
 
 def getLinesForStopID(stopID):
@@ -125,9 +126,23 @@ def showOnMap(circles, stops):
     brussels_map.add_child(fg)
 
     for stop in stops:
-        if stop in StopsInformation:
+        if stop in StopsInformation and stop in StopsMode:
+            mode = StopsMode[stop]
+            color = "blue"
+            icon = "info"
+
+            if mode == "M":
+                color = "orange"
+                icon = "subway"
+            elif mode == "T":
+                color = "green"
+                icon = "train"
+            elif mode == "B":
+                color = "purple"
+                icon = "bus"
+
             folium.Marker(location=StopsInformation[stop],
-                          popup=STIB.getStationName(stop).strip("\""), icon=folium.Icon(color="blue")).add_to(brussels_map)
+                          popup=STIB.getStationName(stop).strip("\"") + "<br>(" + mode + ")", icon=folium.Icon(color=color, icon=icon, prefix="fa")).add_to(brussels_map)
 
     folium.Marker(location=circles[-1][0],
                   popup="Start position", icon=folium.Icon(color="red")).add_to(brussels_map)

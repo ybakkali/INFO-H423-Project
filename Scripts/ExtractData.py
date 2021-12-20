@@ -126,6 +126,19 @@ def getPositionsFromCSV(file_path):
     return positions
 
 
+def getStopsMode(file_path):
+    stopsMode = {}
+    with open(file_path, "r") as input_file:
+        input_file.readline()
+        for line in input_file:
+            line = line.strip().split(",")
+            stop_id = line[3].strip("\"")
+            mode = line[10].strip("\"")
+            stopsMode[stop_id] = mode
+
+    return stopsMode
+
+
 def getFullSpeed(file_path):
     speed = {}
 
