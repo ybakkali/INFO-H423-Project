@@ -1,3 +1,5 @@
+import json
+
 from Scripts.ExtractData import getRawPositions, getStopsName
 
 
@@ -83,11 +85,51 @@ def analyseStopsID():
     print("Not found : (" + str(len(posStops)) + ")", posStops)
 
 
+def analysePositions(transport):
+    input_file = open("../Data/JSON/vehiclePosition01.json", "r")
+    data = json.load(input_file)
+
+    varianceNotFound = 0
+    distanceNotValid = 0
+    posCounter = 0
+
+    for time in data["data"]:
+        if time is not None:
+            for response in time["Responses"]:
+                if response is not None:
+                    for line in response["lines"]:
+                        if line is not None:
+                            for position in line["vehiclePositions"]:
+                                if position is not None:
+
+                                    line_id = line["lineId"]
+                                    terminus = transport.getRealStop(position["directionId"], line_id)
+                                    if terminus is None:
+                                        varianceNotFound += 1
+                                        posCounter += 1
+                                    else:
+                                        variance = transport.getVariance(line_id, terminus)
+                                        pointID = transport.getRealStop(position["pointId"], line_id, variance)
+                                        distanceFromPoint = position["distanceFromPoint"]
+                                        if pointID is not None:
+                                            if not transport.isDistanceValid((line_id, variance),
+                                                                             pointID,
+                                                                             distanceFromPoint):
+                                                distanceNotValid += 1
+                                            else:
+                                                posCounter += 1
+    input_file.close()
+
+    print("Variance not found :", varianceNotFound)
+    print("Distance not valid :", distanceNotValid)
+    print("Valid position :", posCounter)
+
+
 def getAllVehiclesTest(positions, transport):
     allVehicles = {}
 
     for k in positions.keys():
-        # k = ("7","2") # TEST
+
         position = positions[k]
 
         # Remove technical stops
@@ -133,7 +175,7 @@ def createVehiclesID(allVehicles, file_path):
                     time = str(position[0])
                     line = k[0]
                     terminus = position[3]
-                    variance = str(int(k[1]) - 1)  # Fuck Yahya
+                    variance = str(int(k[1]) - 1)
                     distance = str(position[2])
                     last_stop = position[1]
                     vehicleID = str(i)
