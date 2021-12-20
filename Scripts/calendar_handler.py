@@ -57,19 +57,10 @@ def read_cal(file_path, out_path):
     w = open(out_path, "w")
     w.write(f.readline())
     for line in f:
-        t = line.strip()
         line = line.strip().split(",")
 
         if line[0] in dico_excep_1:
             excep_date = dico_excep_1[line[0]]
-            """
-            if t != line[0] + insert_date(excep_date):
-                start = datetime.date(int(line[8][0:4]), int(line[8][4:6]), int(line[8][6:8]))
-                end = datetime.date(int(line[9][0:4]), int(line[9][4:6]), int(line[9][6:8]))
-                new_date = datetime.date(int(excep_date[0:4]), int(excep_date[4:6]), int(excep_date[6:8]))
-                if not (start <= new_date <= end):
-                    w.write(line[0] + insert_date(excep_date) + "\n")
-            """
             w.write(",".join(line) + "\n")
             w.write(line[0] + insert_date(excep_date) + "\n")
 
@@ -111,6 +102,18 @@ def remove_date(line):
     return lines
 
 
-if __name__ == '__main__':
+def main():
+    global dico_excep_1, dico_excep_2
+
     read_cal_dates("../Data/gtfs23Sept/calendar_dates.txt")
     read_cal("../Data/gtfs23Sept/calendar.txt", "../Data/gtfs23Sept/new_calendar.txt")
+
+    dico_excep_1 = {}
+    dico_excep_2 = {}
+
+    read_cal_dates("../Data/gtfs3Sept/calendar_dates.txt")
+    read_cal("../Data/gtfs3Sept/calendar.txt", "../Data/gtfs3Sept/new_calendar.txt")
+
+
+if __name__ == '__main__':
+    main()
