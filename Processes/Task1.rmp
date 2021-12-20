@@ -106,15 +106,7 @@
             </list>
             <parameter key="read_not_matching_values_as_missings" value="false"/>
           </operator>
-          <operator activated="true" class="blending:sort" compatibility="9.10.001" expanded="true" height="82" name="Sort" width="90" x="179" y="34">
-            <list key="sort_by">
-              <parameter key="LineID" value="ascending"/>
-              <parameter key="Variance" value="ascending"/>
-              <parameter key="VehicleID" value="ascending"/>
-              <parameter key="Time" value="ascending"/>
-            </list>
-          </operator>
-          <operator activated="true" class="filter_examples" compatibility="9.10.001" expanded="true" height="103" name="Filter Metro Positions" width="90" x="313" y="34">
+          <operator activated="true" class="filter_examples" compatibility="9.10.001" expanded="true" height="103" name="Filter Metro Positions" width="90" x="179" y="34">
             <parameter key="parameter_expression" value="(LineID != 1 &amp;&amp; LineID != 2 &amp;&amp; LineID != 5 &amp;&amp; LineID != 6) || (DistanceFromPoint == 0)"/>
             <parameter key="condition_class" value="expression"/>
             <parameter key="invert_filter" value="false"/>
@@ -124,9 +116,95 @@
             <parameter key="filters_logic_and" value="true"/>
             <parameter key="filters_check_metadata" value="true"/>
           </operator>
-          <connect from_op="Positions" from_port="output" to_op="Sort" to_port="example set input"/>
-          <connect from_op="Sort" from_port="example set output" to_op="Filter Metro Positions" to_port="example set input"/>
-          <connect from_op="Filter Metro Positions" from_port="example set output" to_port="out 1"/>
+          <operator activated="true" class="multiply" compatibility="9.10.001" expanded="true" height="103" name="Multiply (4)" width="90" x="313" y="34"/>
+          <operator activated="true" class="filter_examples" compatibility="9.10.001" expanded="true" height="103" name="Filter Examples (2)" width="90" x="447" y="187">
+            <parameter key="parameter_expression" value=""/>
+            <parameter key="condition_class" value="custom_filters"/>
+            <parameter key="invert_filter" value="false"/>
+            <list key="filters_list">
+              <parameter key="filters_entry_key" value="LineID.eq.1"/>
+              <parameter key="filters_entry_key" value="LineID.eq.2"/>
+              <parameter key="filters_entry_key" value="LineID.eq.5"/>
+              <parameter key="filters_entry_key" value="LineID.eq.6"/>
+            </list>
+            <parameter key="filters_logic_and" value="false"/>
+            <parameter key="filters_check_metadata" value="true"/>
+          </operator>
+          <operator activated="true" class="multiply" compatibility="9.10.001" expanded="true" height="103" name="Multiply (5)" width="90" x="581" y="187"/>
+          <operator activated="true" class="filter_examples" compatibility="9.10.001" expanded="true" height="103" name="Filter Examples" width="90" x="447" y="34">
+            <parameter key="parameter_expression" value="LineID != 1 &amp;&amp; LineID != 2 &amp;&amp; LineID != 5 &amp;&amp; LineID != 6"/>
+            <parameter key="condition_class" value="expression"/>
+            <parameter key="invert_filter" value="false"/>
+            <list key="filters_list">
+              <parameter key="filters_entry_key" value="LineID.eq.1"/>
+              <parameter key="filters_entry_key" value="LineID.eq.2"/>
+              <parameter key="filters_entry_key" value="LineID.eq.5"/>
+              <parameter key="filters_entry_key" value="LineID.eq.6"/>
+            </list>
+            <parameter key="filters_logic_and" value="false"/>
+            <parameter key="filters_check_metadata" value="true"/>
+          </operator>
+          <operator activated="true" class="aggregate" compatibility="9.10.001" expanded="true" height="82" name="One Stop" width="90" x="715" y="238">
+            <parameter key="use_default_aggregation" value="false"/>
+            <parameter key="attribute_filter_type" value="all"/>
+            <parameter key="attribute" value=""/>
+            <parameter key="attributes" value=""/>
+            <parameter key="use_except_expression" value="false"/>
+            <parameter key="value_type" value="attribute_value"/>
+            <parameter key="use_value_type_exception" value="false"/>
+            <parameter key="except_value_type" value="time"/>
+            <parameter key="block_type" value="attribute_block"/>
+            <parameter key="use_block_type_exception" value="false"/>
+            <parameter key="except_block_type" value="value_matrix_row_start"/>
+            <parameter key="invert_selection" value="false"/>
+            <parameter key="include_special_attributes" value="false"/>
+            <parameter key="default_aggregation_function" value="average"/>
+            <list key="aggregation_attributes">
+              <parameter key="Time" value="minimum"/>
+            </list>
+            <parameter key="group_by_attributes" value="LineID|PointID|Variance|VehicleID"/>
+            <parameter key="count_all_combinations" value="false"/>
+            <parameter key="only_distinct" value="false"/>
+            <parameter key="ignore_missings" value="true"/>
+          </operator>
+          <operator activated="true" class="concurrency:join" compatibility="9.10.001" expanded="true" height="82" name="Join (3)" width="90" x="849" y="187">
+            <parameter key="remove_double_attributes" value="true"/>
+            <parameter key="join_type" value="inner"/>
+            <parameter key="use_id_attribute_as_key" value="false"/>
+            <list key="key_attributes">
+              <parameter key="PointID" value="PointID"/>
+              <parameter key="Time" value="minimum(Time)"/>
+              <parameter key="LineID" value="LineID"/>
+              <parameter key="Variance" value="Variance"/>
+              <parameter key="VehicleID" value="VehicleID"/>
+            </list>
+            <parameter key="keep_both_join_attributes" value="false"/>
+          </operator>
+          <operator activated="true" class="append" compatibility="9.10.001" expanded="true" height="103" name="Append" width="90" x="983" y="34">
+            <parameter key="datamanagement" value="double_array"/>
+            <parameter key="data_management" value="auto"/>
+            <parameter key="merge_type" value="all"/>
+          </operator>
+          <operator activated="true" class="blending:sort" compatibility="9.10.001" expanded="true" height="82" name="Sort" width="90" x="1117" y="34">
+            <list key="sort_by">
+              <parameter key="LineID" value="ascending"/>
+              <parameter key="Variance" value="ascending"/>
+              <parameter key="VehicleID" value="ascending"/>
+              <parameter key="Time" value="ascending"/>
+            </list>
+          </operator>
+          <connect from_op="Positions" from_port="output" to_op="Filter Metro Positions" to_port="example set input"/>
+          <connect from_op="Filter Metro Positions" from_port="example set output" to_op="Multiply (4)" to_port="input"/>
+          <connect from_op="Multiply (4)" from_port="output 1" to_op="Filter Examples" to_port="example set input"/>
+          <connect from_op="Multiply (4)" from_port="output 2" to_op="Filter Examples (2)" to_port="example set input"/>
+          <connect from_op="Filter Examples (2)" from_port="example set output" to_op="Multiply (5)" to_port="input"/>
+          <connect from_op="Multiply (5)" from_port="output 1" to_op="Join (3)" to_port="left"/>
+          <connect from_op="Multiply (5)" from_port="output 2" to_op="One Stop" to_port="example set input"/>
+          <connect from_op="Filter Examples" from_port="example set output" to_op="Append" to_port="example set 1"/>
+          <connect from_op="One Stop" from_port="example set output" to_op="Join (3)" to_port="right"/>
+          <connect from_op="Join (3)" from_port="join" to_op="Append" to_port="example set 2"/>
+          <connect from_op="Append" from_port="merged set" to_op="Sort" to_port="example set input"/>
+          <connect from_op="Sort" from_port="example set output" to_port="out 1"/>
           <portSpacing port="source_in 1" spacing="0"/>
           <portSpacing port="sink_out 1" spacing="0"/>
           <portSpacing port="sink_out 2" spacing="0"/>
