@@ -8,7 +8,7 @@ from haversine import haversine, Unit
 import folium
 import folium.plugins
 
-RUNNING = 5  # 5 km/h
+WALKING = 5  # 5 km/h
 
 Lines = getLineInfo("../Data/LinesInformation.csv")
 StopsName = getStopsName("../Data/gtfs23Sept/stops.txt")
@@ -54,12 +54,12 @@ def getStopsByRadius(position, distance):
 
 def getStopsByRunning(position, t, limit):
     time_left = limit - t
-    distance = RUNNING * time_left.total_seconds()/3600
+    distance = WALKING * time_left.total_seconds() / 3600
 
     stops = {}
 
     for stop, d in getStopsByRadius(position, distance):
-        h = timedelta(hours=d / RUNNING)
+        h = timedelta(hours=d / WALKING)
         new_time = t + h
 
         stops[stop] = new_time
@@ -100,7 +100,7 @@ def generateCircle(stops, limit):
     for stop, t in stops.items():
         if stop in StopsInformation:
             time_left = limit - t
-            distance = RUNNING * time_left.total_seconds() / 3600
+            distance = WALKING * time_left.total_seconds() / 3600
             circles.append((StopsInformation[stop], distance))
 
     return circles
@@ -182,7 +182,7 @@ def main():
         modified = new_modified
 
     circles = generateCircle(stops, limit)
-    circles.append((start_position, RUNNING * (limit - t).total_seconds() / 3600))
+    circles.append((start_position, WALKING * (limit - t).total_seconds() / 3600))
 
     showOnMap(circles, stops)
 
